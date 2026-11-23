@@ -5,145 +5,160 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Abhyasa</title>
 <style>
-:root{--bg:#f6f5f1;--card:#fff;--ink:#1d1d1b;--mut:#6b6a65;--acc:#1d6b4f;--bar:#e4e2da;--line:#e8e6df;--btn:#efede6;color-scheme:light dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media(prefers-color-scheme:dark){:root{--bg:#141413;--card:#1e1e1c;--ink:#f0eee8;--mut:#9b9a93;--acc:#5fcf9f;--bar:#33322e;--line:#2c2b28;--btn:#2b2a27}}
+:root{--bg:#f6f5f1;--card:#fff;--ink:#1d1d1b;--mut:#6b6a65;--acc:#1d6b4f;--bar:#e4e2da;--line:#e8e6df;--btn:#efede6;--warn:#b4531a;color-scheme:light dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root{--bg:#141413;--card:#1e1e1c;--ink:#f0eee8;--mut:#9b9a93;--acc:#5fcf9f;--bar:#33322e;--line:#2c2b28;--btn:#2b2a27;--warn:#f0a070}}
 *{box-sizing:border-box}
 html,body{margin:0}
 body{background:var(--bg);color:var(--ink);font:16px/1.4 -apple-system,system-ui,"Segoe UI",sans-serif;padding:16px 14px 40px;max-width:520px;margin:0 auto}
 h1{font-size:22px;margin:4px 0 0}
-.tag{color:var(--mut);font-size:13px;margin:0 0 4px}
-.date{color:var(--mut);font-size:14px;margin:0 0 14px}
-.cat{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);margin:20px 2px 8px}
+.mut{color:var(--mut);font-size:13px;margin:2px 0}
+.hero{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin:12px 0}
+.big{font-size:26px;font-weight:700;color:var(--acc)}
 .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
 .row{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
-.src{font-weight:600;font-size:17px}
-.due{font-size:12px;color:var(--mut);text-align:right}
-.target{margin:8px 0 6px;font-size:15px}
-.target b{color:var(--acc);font-size:20px}
+.sub{font-weight:700;font-size:18px}
+.t{margin:6px 0;font-size:14px}.t b{color:var(--acc)}
 .bar{height:8px;border-radius:4px;background:var(--bar);overflow:hidden}
-.bar i{display:block;height:100%;background:var(--acc);border-radius:4px}
-.topic{border-top:1px solid var(--line);margin-top:12px;padding-top:10px}
-.tname{font-size:15px}
+.bar i{display:block;height:100%;background:var(--acc)}
+details{border-top:1px solid var(--line);margin-top:12px;padding-top:10px}
+summary{font-weight:600;font-size:15px;min-height:30px}
+summary small{color:var(--mut);font-weight:400;display:block;font-size:12px}
+.topic{margin-top:12px;padding-top:10px;border-top:1px dashed var(--line)}
 .tname span{color:var(--mut);font-size:12px;margin-right:4px}
+.weak{color:var(--warn);font-size:11px;margin-left:6px}
 .meta{font-size:12px;color:var(--mut);margin:2px 0 8px}
 .ctl{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
 button{font:inherit;background:var(--btn);color:var(--ink);border:0;border-radius:10px;min-width:44px;height:44px;padding:0 12px}
 button:active{opacity:.6}
-.n{min-width:44px;text-align:center;font-weight:600}
-.lbl{font-size:12px;color:var(--mut);margin-left:4px}
+.n{min-width:40px;text-align:center;font-weight:600}
+.lbl{font-size:12px;color:var(--mut);margin:0 6px 0 2px}
 .done{opacity:.55}
-.reset{margin-top:8px;width:100%;color:var(--mut)}
+textarea{width:100%;height:90px;font:12px monospace;background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:8px;margin:8px 0}
 </style>
 </head>
 <body>
 <h1>Abhyasa</h1>
-<p class="tag">Practice. Prepare. Perform.</p>
-<p class="date" id="date"></p>
+<p class="mut">Practice. Prepare. Perform.</p>
+<div class="hero" id="hero"></div>
 <div id="app"></div>
-<button class="reset" id="reset">Clear today’s log</button>
+<div class="card">
+  <div class="sub">Backup</div>
+  <p class="mut">Progress lives only in this browser. Copy the backup text into Notes now and then.</p>
+  <textarea id="bk" placeholder="Backup text appears here"></textarea>
+  <div class="ctl"><button id="exp">Show backup</button><button id="imp">Restore from text</button><button id="clr">Clear today</button></div>
+</div>
 
 <script>
 // ---- Edit your data here (same as seed.sql) ----
 const DATA = {
-  categories: [{id:1,name:"Maths"},{id:2,name:"English"}],
-  sources: [
-    {id:1,cat:1,name:"Quant Book",due:"2026-12-31"},
-    {id:2,cat:1,name:"Maths Videos",due:"2027-01-15"},
-    {id:3,cat:2,name:"Grammar PDF",due:"2026-12-20"}
+  exam: {name:"SSC CGL Mains", date:"2027-01-15", revisionDays:5},
+  subjects: [{id:1,name:"English"},{id:2,name:"Maths"},{id:3,name:"GS"},{id:4,name:"Computer"},{id:5,name:"Reasoning"}],
+  sources: [ // mpu = minutes per page / video / mock (placeholders)
+    {id:1,sub:1,name:"Neetu Mam Volume Book",mpu:2},
+    {id:2,sub:1,name:"Blackbook English Vocabulary",mpu:2},
+    {id:3,sub:1,name:"Pinnacle English (8th ed.)",mpu:2},
+    {id:4,sub:2,name:"Pinnacle Maths (8th ed.)",mpu:5},
+    {id:5,sub:3,name:"Parmar Fatman",mpu:2},
+    {id:6,sub:3,name:"Pinnacle GS",mpu:2},
+    {id:7,sub:4,name:"Arihant Computer Awareness",mpu:2},
+    {id:8,sub:5,name:"Reasoning Mocks",mpu:90}
   ],
-  topics: [
-    {id:1,src:1,name:"Percentages",pages:40,videos:null,mocks:2,order:1},
-    {id:2,src:1,name:"Ratio",pages:35,videos:null,mocks:1,order:2},
-    {id:3,src:2,name:"Algebra",pages:null,videos:25,mocks:3,order:1},
-    {id:4,src:3,name:"Tenses",pages:30,videos:null,mocks:2,order:1},
-    {id:5,src:3,name:"Articles",pages:18,videos:null,mocks:1,order:2}
+  topics: [ // one topic per book for now; split into chapters later. weak:1 = do first
+    {id:1,src:1,name:"Whole book",pages:478,videos:null,tests:null,mocks:0,order:1,weak:0},
+    {id:2,src:2,name:"Whole book",pages:572,videos:null,tests:null,mocks:0,order:1,weak:0},
+    {id:3,src:3,name:"Whole book",pages:657,videos:null,tests:null,mocks:0,order:1,weak:0},
+    {id:4,src:4,name:"Whole book",pages:672,videos:null,tests:null,mocks:0,order:1,weak:0},
+    {id:5,src:5,name:"Whole book",pages:509,videos:null,tests:null,mocks:0,order:1,weak:0},
+    {id:6,src:6,name:"Whole book",pages:556,videos:null,tests:null,mocks:0,order:1,weak:0},
+    {id:7,src:7,name:"Whole book",pages:191,videos:null,tests:null,mocks:0,order:1,weak:0},
+    {id:8,src:8,name:"Mock tests",pages:null,videos:null,tests:45,mocks:0,order:1,weak:0}
   ]
 };
 // ------------------------------------------------
 
-const KEY = "abhyasa-v1";
-let st = {log:{}, mocks:{}};
+const KEY = "abhyasa-v2";
+let st = {log:{}, mocks:{}}, open = {};
 try { st = JSON.parse(localStorage.getItem(KEY)) || st; } catch(e) {}
-function save(){ try { localStorage.setItem(KEY, JSON.stringify(st)); } catch(e) {} }
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch(e) {} };
 
 const pad = n => String(n).padStart(2,"0");
-const now = new Date();
-const today = now.getFullYear()+"-"+pad(now.getMonth()+1)+"-"+pad(now.getDate());
-document.getElementById("date").textContent =
-  now.toLocaleDateString(undefined,{weekday:"long",day:"numeric",month:"long",year:"numeric"});
+const iso = d => d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate());
+const now = new Date(), today = iso(now);
+const day = s => new Date(s+"T00:00:00");
+const exam = day(DATA.exam.date);
+const studyEnd = new Date(exam); studyEnd.setDate(exam.getDate()-DATA.exam.revisionDays);
+const left = Math.round((day(iso(studyEnd))-day(today))/864e5)+1;
+const toExam = Math.round((exam-day(today))/864e5);
 
-const total = t => t.pages != null ? t.pages : t.videos;
-const unit = t => t.pages != null ? "pages" : "videos";
+const total = t => t.pages != null ? t.pages : t.videos != null ? t.videos : t.tests;
+const unit = t => t.pages != null ? "pages" : t.videos != null ? "videos" : "mocks";
 const logOf = d => st.log[d] || (st.log[d] = {});
-const todayDone = t => logOf(today)[t.id] || 0;
+const tdy = t => logOf(today)[t.id] || 0;
 const before = t => Object.keys(st.log).reduce((s,d) => d===today ? s : s+(st.log[d][t.id]||0), 0);
-const daysLeft = due => {
-  const a = new Date(today+"T00:00:00"), b = new Date(due+"T00:00:00");
-  return Math.round((b-a)/864e5)+1;
-};
+const sorted = ts => ts.slice().sort((a,b)=>a.order-b.order||a.id-b.id);
 
-// order like the SQL: category, source, topic_order
-const srcs = DATA.sources.slice().sort((a,b) =>
-  DATA.categories.findIndex(c=>c.id===a.cat) - DATA.categories.findIndex(c=>c.id===b.cat) || a.id-b.id);
-const num = {}, cnt = {};
-srcs.forEach(s => DATA.topics.filter(t=>t.src===s.id).sort((a,b)=>a.order-b.order||a.id-b.id)
-  .forEach(t => { cnt[s.cat]=(cnt[s.cat]||0)+1; num[t.id]=cnt[s.cat]; }));
+// topic number within subject (like the SQL)
+const num = {};
+DATA.subjects.forEach(sj => { let n = 0;
+  DATA.sources.filter(s=>s.sub===sj.id).forEach(s => sorted(DATA.topics.filter(t=>t.src===s.id)).forEach(t => num[t.id] = ++n)); });
 
 function render(){
-  let html = "", lastCat = null;
-  srcs.forEach(s => {
-    if (s.cat !== lastCat) {
-      html += '<div class="cat">'+DATA.categories.find(c=>c.id===s.cat).name+'</div>';
-      lastCat = s.cat;
-    }
-    const ts = DATA.topics.filter(t=>t.src===s.id).sort((a,b)=>a.order-b.order||a.id-b.id);
-    const tot = ts.reduce((a,t)=>a+total(t),0);
-    const bef = ts.reduce((a,t)=>a+before(t),0);
-    const tdy = ts.reduce((a,t)=>a+todayDone(t),0);
-    const left = daysLeft(s.due);
-    const target = Math.min(tot-bef, Math.ceil((tot-bef)/Math.max(1,left)));
-    const pct = target > 0 ? Math.min(100, Math.round(tdy/target*100)) : 100;
-    const dueTxt = left < 1 ? "Overdue" : left+" day"+(left===1?"":"s")+" left";
-    html += '<div class="card"><div class="row"><div class="src">'+s.name+'</div>'
-      +'<div class="due">'+s.due+'<br>'+dueTxt+'</div></div>'
-      +'<div class="target">Today’s target: <b>'+target+'</b> · done <b>'+tdy+'</b></div>'
-      +'<div class="bar"><i style="width:'+pct+'%"></i></div>';
-    ts.forEach(t => {
-      const d = before(t)+todayDone(t), fin = d >= total(t);
-      const m = st.mocks[t.id]||0;
-      html += '<div class="topic'+(fin?' done':'')+'"><div class="tname"><span>#'+num[t.id]+'</span>'+t.name+'</div>'
-        +'<div class="meta">'+d+' / '+total(t)+' '+unit(t)+' · mocks '+m+' / '+t.mocks+'</div>'
-        +'<div class="ctl">'
-        +'<button data-a="u" data-t="'+t.id+'" data-v="-1">−</button>'
-        +'<span class="n">'+todayDone(t)+'</span>'
-        +'<button data-a="u" data-t="'+t.id+'" data-v="1">+1</button>'
-        +'<button data-a="u" data-t="'+t.id+'" data-v="5">+5</button>'
-        +'<span class="lbl">today</span></div>'
-        +'<div class="ctl" style="margin-top:6px">'
-        +'<button data-a="m" data-t="'+t.id+'" data-v="-1">−</button>'
-        +'<span class="n">'+m+'</span>'
-        +'<button data-a="m" data-t="'+t.id+'" data-v="1">+</button>'
-        +'<span class="lbl">mock tests</span></div></div>';
+  let html = "", allT = 0, allD = 0;
+  DATA.subjects.forEach(sj => {
+    let sT = 0, sD = 0, body = "";
+    DATA.sources.filter(s=>s.sub===sj.id).forEach(s => {
+      const ts = DATA.topics.filter(t=>t.src===s.id);
+      const rem = ts.reduce((a,t)=>a+total(t)-before(t),0);
+      const target = left < 1 ? rem : Math.ceil(rem/left);
+      const done = ts.reduce((a,t)=>a+tdy(t),0);
+      sT += Math.min(rem,target)*s.mpu; sD += done*s.mpu;
+      body += '<details data-s="'+s.id+'"'+(open[s.id]?' open':'')+'><summary>'+s.name
+        +'<small>target '+Math.min(rem,target)+' · done '+done+' · '+rem+' left in source</small></summary>';
+      ts.sort((a,b)=>b.weak-a.weak||a.order-b.order||a.id-b.id).forEach(t => {
+        const d = before(t)+tdy(t), fin = d >= total(t), m = st.mocks[t.id]||0;
+        body += '<div class="topic'+(fin?' done':'')+'"><div class="tname"><span>#'+num[t.id]+'</span>'+t.name
+          +(t.weak?'<span class="weak">WEAK</span>':'')+'</div>'
+          +'<div class="meta">'+d+' / '+total(t)+' '+unit(t)+'</div>'
+          +'<div class="ctl"><button data-a="u" data-t="'+t.id+'" data-v="-1">−</button><span class="n">'+tdy(t)+'</span>'
+          +'<button data-a="u" data-t="'+t.id+'" data-v="1">+1</button><button data-a="u" data-t="'+t.id+'" data-v="5">+5</button>'
+          +'<span class="lbl">today</span>'
+          +(t.mocks ? '<button data-a="m" data-t="'+t.id+'" data-v="-1">−</button><span class="n">'+m+'/'+t.mocks+'</span>'
+          +'<button data-a="m" data-t="'+t.id+'" data-v="1">+</button><span class="lbl">mocks</span>' : '')
+          +'</div></div>';
+      });
+      body += '</details>';
     });
-    html += '</div>';
+    allT += sT; allD += sD;
+    const pct = sT > 0 ? Math.min(100, Math.round(sD/sT*100)) : 100;
+    html += '<div class="card"><div class="row"><div class="sub">'+sj.name+'</div></div>'
+      +'<div class="t">Today: <b>'+sT+' min</b> target · <b>'+sD+' min</b> done</div>'
+      +'<div class="bar"><i style="width:'+pct+'%"></i></div>'+body+'</div>';
   });
+  const p = allT > 0 ? Math.min(100, Math.round(allD/allT*100)) : 100;
   document.getElementById("app").innerHTML = html;
+  document.getElementById("hero").innerHTML =
+    '<div class="mut">'+DATA.exam.name+' · '+toExam+' days to 15 Jan target</div>'
+    +'<div class="mut">Study ends '+iso(studyEnd)+' · then '+DATA.exam.revisionDays+' days revision &amp; mocks</div>'
+    +'<div class="mut" style="margin-top:8px">Today’s total</div>'
+    +'<div class="big">'+allD+' / '+allT+' min</div><div class="bar"><i style="width:'+p+'%"></i></div>';
 }
 
-document.getElementById("app").addEventListener("click", e => {
+const app = document.getElementById("app");
+app.addEventListener("toggle", e => { if (e.target.dataset.s) open[e.target.dataset.s] = e.target.open; }, true);
+app.addEventListener("click", e => {
   const b = e.target.closest("button"); if (!b) return;
   const t = DATA.topics.find(x => x.id === +b.dataset.t), v = +b.dataset.v;
-  if (b.dataset.a === "u") {
-    const max = total(t) - before(t);
-    logOf(today)[t.id] = Math.max(0, Math.min(max, todayDone(t)+v));
-  } else {
-    st.mocks[t.id] = Math.max(0, Math.min(t.mocks, (st.mocks[t.id]||0)+v));
-  }
+  if (b.dataset.a === "u") logOf(today)[t.id] = Math.max(0, Math.min(total(t)-before(t), tdy(t)+v));
+  else st.mocks[t.id] = Math.max(0, Math.min(t.mocks, (st.mocks[t.id]||0)+v));
   save(); render();
 });
-document.getElementById("reset").onclick = () => {
-  if (confirm("Clear everything logged today?")) { st.log[today] = {}; save(); render(); }
+const bk = document.getElementById("bk");
+document.getElementById("exp").onclick = () => { bk.value = JSON.stringify(st); bk.focus(); bk.select(); };
+document.getElementById("imp").onclick = () => {
+  try { const o = JSON.parse(bk.value); if (!o.log || !o.mocks) throw 0; st = o; save(); render(); bk.value = "Restored."; }
+  catch(e) { bk.value = "That text is not a valid backup."; }
 };
+document.getElementById("clr").onclick = () => { if (confirm("Clear everything logged today?")) { st.log[today] = {}; save(); render(); } };
 render();
 </script>
 </body>
