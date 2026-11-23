@@ -44,3 +44,15 @@ sqlite3 -header -column abhyasa.db < query.sql
 - `no` restarts at 1 in each category.
 - `pages` or `videos` is empty, depending on the source type.
 - Target date is stored per source.
+
+## Daily page
+
+`index.html` shows today’s target per source and lets you
+log what you did today (pages/videos and mock tests).
+
+- Target = remaining ÷ days left until the source’s due date.
+- Progress is saved in your phone’s browser.
+- To view it on iPhone: repo **Settings → Pages**, deploy
+  from the `main` branch, then open the link in Safari.
+- Edit the `DATA` block at the top of the file to change
+  sources, topics and dates.
