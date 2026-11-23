@@ -1,40 +1,46 @@
-# Abhyasa SSC — StudyDesk
+# Abhyasa
 
-Single-file offline study desk for SSC CGL. No server, no install — open `index.html` in Chrome or Edge.
+**Practice. Prepare. Perform.**
 
-## Structure
+A small study-tracker database.
+
+## What it shows
+
+For every topic:
+
+1. Category
+2. Source name
+3. Topic name
+4. Length (pages or videos) and mock tests
+5. Topic number within its category
+6. Source target completion date
+
+## Files
+
+- `schema.sql` creates the tables
+- `seed.sql` adds sample data
+- `query.sql` runs the report
+
+## Run it
+
 ```
-abhyasa-ssc/
-├── index.html
-├── css/style.css
-├── js/
-│   ├── utils.js      ← shared constants & helpers
-│   ├── planner.js    ← Your Progress / daily tracker
-│   └── app.js        ← core study view logic
-├── README.md
-├── .gitignore
-└── subjects/         ← your local files (gitignored)
-    ├── reasoning/
-    ├── mathematics/
-    ├── general/
-    ├── english/
-    └── computer/
+sqlite3 abhyasa.db < schema.sql
+sqlite3 abhyasa.db < seed.sql
+sqlite3 -header -column abhyasa.db < query.sql
 ```
 
-## Requirements
-**Chrome or Edge (desktop) only** — uses File System Access API.
+## Sample output
 
-## HTML study files
-Must be fully self-contained (inline CSS/JS or CDN). Relative asset paths won't resolve inside the sandboxed iframe.
+| category | source | topic | pages | videos | mocks | no | due |
+|---|---|---|---|---|---|---|---|
+| English | Grammar PDF | Tenses | 30 |  | 2 | 1 | 2026-12-20 |
+| English | Grammar PDF | Articles | 18 |  | 1 | 2 | 2026-12-20 |
+| Maths | Quant Book | Percentages | 40 |  | 2 | 1 | 2026-12-31 |
+| Maths | Quant Book | Ratio | 35 |  | 1 | 2 | 2026-12-31 |
+| Maths | Maths Videos | Algebra |  | 25 | 3 | 3 | 2027-01-15 |
 
-## Contact Us setup
-1. Create a free form at [formspree.io](https://formspree.io)
-2. Replace `YOUR_FORM_ID` in `index.html` with your form ID
+## Notes
 
-## Excel schedule format
-| date | general/ga | english/eng | reason/rsn | math | computer/comp |
-|------|-----------|-------------|------------|------|---------------|
-| 2025-06-01 | Polity Ch.3 | Reading | Syllogism | Algebra | MS Office |
-
-## Data storage
-All progress is in browser `localStorage` + `IndexedDB`. Nothing leaves your device except Contact Us submissions.
+- `no` restarts at 1 in each category.
+- `pages` or `videos` is empty, depending on the source type.
+- Target date is stored per source.
