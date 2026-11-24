@@ -3,8 +3,8 @@
 -- Chapter sizes = last page - first page + 1, from each book's contents page.
 PRAGMA foreign_keys = ON;
 
-INSERT INTO exams (exam_id, exam_name, exam_date, revision_days) VALUES
-  (1, 'SSC CGL Mains', '2027-01-15', 5);
+INSERT INTO exams (exam_id, exam_name, exam_date, revision_days, study_start) VALUES
+  (1, 'SSC CGL Mains', '2027-01-15', 5, '2026-11-24');   -- study_start: change to the day you really began
 
 INSERT INTO subjects (subject_id, exam_id, subject_name) VALUES
   (1, 1, 'English'), (2, 1, 'Maths'), (3, 1, 'GS'), (4, 1, 'Computer'), (5, 1, 'Reasoning');

@@ -1,0 +1,33 @@
+# Rebuilds data.js whenever you edit the plan on github.com. No computer needed.
+name: Rebuild data.js
+on:
+  push:
+    paths: ["seed.sql", "schema.sql", "export_data.py"]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build database and data.js
+        run: |
+          python3 - <<'PY'
+          import sqlite3, os
+          if os.path.exists("abhyasa.db"): os.remove("abhyasa.db")
+          db = sqlite3.connect("abhyasa.db")
+          db.executescript(open("schema.sql").read())
+          db.executescript(open("seed.sql").read())
+          db.commit()
+          PY
+          python3 export_data.py abhyasa.db
+          rm -f abhyasa.db
+      - name: Commit data.js if it changed
+        run: |
+          if git diff --quiet -- data.js; then echo "data.js is up to date"; exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data.js
+          git commit -m "Rebuild data.js from seed.sql"
+          git push

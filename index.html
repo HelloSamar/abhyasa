@@ -4,6 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Abhyasa</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-180.png">
+<meta name="theme-color" content="#1d4ed8">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Abhyasa">
 <style>
 :root{--bg:#fff;--ink:#1c1c1e;--mut:#6b7280;--line:#ececf0;--btn:#f2f2f5;--acc:#1d4ed8;--on-acc:#fff;--sc:var(--acc);--c1:#1d4ed8;--c2:#6d28d9;--c3:#9a3412;--c4:#115e59;--c5:#9d174d;color-scheme:light dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 @media(prefers-color-scheme:dark){:root{--bg:#0f0f10;--ink:#f2f2f3;--mut:#a0a0aa;--line:#26262a;--btn:#1d1d20;--acc:#8ab8ff;--on-acc:#0b1220;--c1:#a6ccff;--c2:#cdbcff;--c3:#ffc99a;--c4:#86ead9;--c5:#ffb0cc}}
@@ -42,8 +48,8 @@ summary{font-size:14px;min-height:44px;padding:10px 0}
 .cmp .task{opacity:.9}
 .set .sec{margin:6px 0 18px}
 .set b{color:var(--ink);font-size:15px}
-input[type=password],textarea{width:100%;font:14px monospace;background:var(--btn);color:var(--ink);border:0;border-radius:10px;padding:10px;margin:8px 0}
-textarea{height:80px;font-size:12px}
+input[type=password],textarea{width:100%;font:16px monospace;background:var(--btn);color:var(--ink);border:0;border-radius:10px;padding:10px;margin:8px 0}
+textarea{height:90px}
 .ctl{display:flex;gap:8px;flex-wrap:wrap}
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
@@ -70,21 +76,23 @@ if (typeof DATA === "undefined") {
   throw new Error("data.js missing");
 }
 const KEY = "abhyasa-v5";
-const byOrder = (a,b) => b.weak - a.weak || a.order - b.order || a.id - b.id;   // weak topics first
+const isWeak = t => (st.weak && t.id in st.weak) ? st.weak[t.id] : t.weak;      // your own flag wins over the plan's
+const byOrder = (a,b) => isWeak(b) - isWeak(a) || a.order - b.order || a.id - b.id;   // weak topics first
 const topicsOf = s => DATA.topics.filter(t => t.src === s.id).sort(byOrder);
 const topicById = Object.create(null); DATA.topics.forEach(t => topicById[t.id] = t);
 
 // Saved state: {v:5, log:{"YYYY-MM-DD":{topicId:unitsDone}}, ts:lastChange}
 function clean(o){            // keep what still matches the plan; drop unknown topics, clamp to chapter size
   if (!o || o.v !== 5 || !o.log || typeof o.log !== "object" || Array.isArray(o.log)) return null;
-  const out = {v:5, log:{}, ts: Number.isFinite(o.ts) ? o.ts : 0};
+  const out = {v:5, log:{}, ts: Number.isFinite(o.ts) ? o.ts : 0, weak:{}};
+  if (o.weak && typeof o.weak === "object") Object.keys(o.weak).forEach(id => { if (topicById[id] && (o.weak[id] === 0 || o.weak[id] === 1)) out.weak[id] = o.weak[id]; });
   Object.keys(o.log).forEach(d => { const x = o.log[d];
     if (!/^\d{4}-\d\d-\d\d$/.test(d) || !x || typeof x !== "object" || Array.isArray(x)) return;
     Object.keys(x).forEach(id => { const t = topicById[id];
       if (t && Number.isInteger(x[id]) && x[id] > 0) (out.log[d] || (out.log[d] = {}))[id] = Math.min(x[id], t.units); }); });
   return out;
 }
-let st = {v:5, log:{}, ts:0};
+let st = {v:5, log:{}, ts:0, weak:{}};
 try { const c = clean(JSON.parse(localStorage.getItem(KEY))); if (c) st = c; } catch(e) {}
 const save = () => { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch(e) {} };
 
@@ -108,6 +116,13 @@ function render(){
   if (view !== "all" && !DATA.subjects.some(s => String(s.id) === view)) view = "all";
   const left = Math.round((day(iso(studyEnd)) - day(today)) / 864e5) + 1;   // today counts
   const toExam = Math.round((exam - day(today)) / 864e5);
+  // ahead/behind: progress compared with an even pace from the plan's start date to the end of study
+  const startD = day(DATA.exam.start || today);
+  const total = Math.max(1, Math.round((studyEnd - startD) / 864e5) + 1);
+  const elapsed = Math.min(total, Math.max(0, Math.round((day(today) - startD) / 864e5)));   // days finished before today
+  const pace = f => { const d = Math.round((f - elapsed / total) * total); return d >= 1 ? d+"d ahead" : d <= -1 ? (-d)+"d behind" : "on track"; };
+  let frac = 0;
+  DATA.sources.forEach(s => { const ts = topicsOf(s); frac += ts.reduce((a,t) => a + before(t) + tdy(t), 0) / ts.reduce((a,t) => a + t.units, 0); });
   const items = [];
   DATA.sources.forEach(s => {
     if (view !== "all" && String(s.sub) !== view) return;
@@ -122,11 +137,12 @@ function render(){
   const row = (t, s, isDone, d) => {
     ids.add(t.id);
     return '<div class="task s'+s.sub+(isDone ? ' fin' : '')+'"><button type="button" class="chk" data-a="chk" data-t="'+t.id+'" aria-label="'+(isDone ? 'Mark not done: ' : 'Mark done: ')+esc(t.name)+'"><span class="c">'+CHECK+'</span></button>'
-      +'<button type="button" class="body" data-a="exp" data-t="'+t.id+'" aria-expanded="'+!!expanded[t.id]+'"><div class="tn">'+esc(t.name)+(t.weak ? ' · weak' : '')+'</div>'
+      +'<button type="button" class="body" data-a="exp" data-t="'+t.id+'" aria-expanded="'+!!expanded[t.id]+'"><div class="tn">'+esc(t.name)+(isWeak(t) ? ' · weak' : '')+'</div>'
       +'<div class="ts">'+(isDone ? esc(s.name)+' · completed' : d+' / '+t.units+' '+s.unit+'s')+'</div></button>'
       +(!isDone && expanded[t.id] ? '<div class="stp"><button type="button" data-a="step" data-t="'+t.id+'" data-v="-1" aria-label="Remove one">−</button>'
         +'<button type="button" data-a="step" data-t="'+t.id+'" data-v="1" aria-label="Add one">+1</button>'
-        +(t.units > 5 ? '<button type="button" data-a="step" data-t="'+t.id+'" data-v="5" aria-label="Add five">+5</button>' : '')+'</div>' : '')
+        +(t.units > 5 ? '<button type="button" data-a="step" data-t="'+t.id+'" data-v="5" aria-label="Add five">+5</button>' : '')
+        +'<button type="button" data-a="weak" data-t="'+t.id+'">'+(isWeak(t) ? 'Not weak' : 'Mark weak')+'</button></div>' : '')
       +'</div>';
   };
   items.forEach(({s, ts}) => {
@@ -138,13 +154,13 @@ function render(){
       if (open >= 2) return;
       open++; rows += row(t, s, false, d);
     });
-    if (rows) { nOpen++; html += '<div class="grp s'+s.sub+'"><div class="gh"><span>'+esc(s.name)+'</span><span>'+Math.floor(got / all * 100)+'%</span></div>'+rows+'</div>'; }
+    if (rows) { nOpen++; html += '<div class="grp s'+s.sub+'"><div class="gh"><span>'+esc(s.name)+'</span><span>'+Math.floor(got / all * 100)+'% · '+pace(got / all)+'</span></div>'+rows+'</div>'; }
   });
   if (!items.length) html = '<div class="empty">Nothing due today.</div>';
   else if (!nOpen) html = '<div class="empty">All done for today.</div>';
   if (nFin) html += '<details class="cmp"><summary>Completed · '+nFin+'</summary>'+fin+'</details>';
   document.getElementById("app").innerHTML = html;
-  document.getElementById("hero").textContent = DATA.exam.name+" · "+toExam+" days left";
+  document.getElementById("hero").textContent = DATA.exam.name+" · "+toExam+" days left · "+pace(frac / DATA.sources.length);
   document.getElementById("chips").innerHTML = '<button type="button" class="chip'+(view === "all" ? ' on' : '')+'" data-a="view" data-v="all">All</button>'
     + DATA.subjects.map(sj => '<button type="button" class="chip s'+sj.id+(String(sj.id) === view ? ' on' : '')+'" data-a="view" data-v="'+sj.id+'">'+esc(sj.name)+'</button>').join("");
   prevIds = ids; popId = null;
@@ -163,7 +179,7 @@ const ui = () => { $("syncform").hidden = !!sync.token; $("syncon").hidden = !sy
 const schedule = () => { clearTimeout(tm); tm = setTimeout(doSync, 2000); };
 function touch(){ st.ts = Date.now(); rev++; setDirty(true); save(); if (sync.token) schedule(); }
 function merge(a, b){          // only used if two devices changed things before syncing: keep the larger count
-  const out = {v:5, log:{}, ts: Math.max(a.ts || 0, b.ts || 0)};
+  const out = {v:5, log:{}, ts: Math.max(a.ts || 0, b.ts || 0), weak: Object.assign({}, (a.ts || 0) >= (b.ts || 0) ? b.weak : a.weak, (a.ts || 0) >= (b.ts || 0) ? a.weak : b.weak)};
   [a, b].forEach(s => Object.keys(s.log).forEach(d => Object.keys(s.log[d]).forEach(id => {
     const o = out.log[d] || (out.log[d] = {}); o[id] = Math.max(o[id] || 0, s.log[d][id]); })));
   return out;
@@ -209,6 +225,7 @@ function onTap(e){
   tick();
   const t = topicById[b.dataset.t]; if (!t) return;
   if (a === "exp") { expanded[t.id] = !expanded[t.id]; render(); return; }
+  if (a === "weak") { st.weak = st.weak || {}; st.weak[t.id] = isWeak(t) ? 0 : 1; touch(); render(); return; }
   const L = st.log[today] || (st.log[today] = {});
   const room = t.units - before(t);
   if (a === "chk") {
@@ -237,6 +254,7 @@ $("clr").onclick = () => { if (confirm("Clear everything logged today?")) { dele
 const wake = () => { render(); doSync(); };
 document.addEventListener("visibilitychange", () => { if (!document.hidden) wake(); });
 window.addEventListener("focus", wake);
+if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});   // lets the page open offline
 ui(); if (sync.token) msg("Connected."); render(); doSync();
 </script>
 </body>

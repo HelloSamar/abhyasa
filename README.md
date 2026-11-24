@@ -32,7 +32,8 @@ Commit `data.js` with `index.html`: GitHub Pages needs both.
 - Each source lists its next two chapters in order (weak topics first). Sources with nothing left are hidden.
 - Tap the circle to complete a chapter. It moves to "Completed" at the bottom and the next chapter appears. Tap again to undo.
 - Tap a chapter's name to open −, +1 and +5 for partial progress.
-- The percentage next to each source is how much of the whole source you have finished.
+- The percentage next to each source is how much of the whole source you have finished, followed by whether you are ahead, behind or on track. This compares your progress with an even pace from `study_start` (in `seed.sql`) to the end of study, measured against the plan through yesterday, with today's work included. The top line shows the same for all sources together.
+- Open a chapter and tap **Mark weak** to flag it. Weak chapters move to the front of their source and the flag syncs between devices.
 - Behind the scenes, the daily amount for a source = units left at the start of today ÷ days left to study (today counts), rounded up. Study ends `revision_days` before the exam date. This only decides which sources are due today.
 
 ## Sync between phone and computer
@@ -49,10 +50,10 @@ Notes: a "secret" gist is not private to anyone who has its link, but it only ho
 
 Settings → Backup: "Show backup" prints your progress as text. Copy it into Notes now and then. "Restore" replaces what is saved on this device; anything that no longer matches the plan is ignored.
 
-## Phone
+## Phone and offline
 
-Repo **Settings → Pages**, deploy from `main`, open the link in Safari, then **Share → Add to Home Screen**.
+Repo **Settings → Pages**, deploy from `main`, open the link in Safari, then **Share → Add to Home Screen**. The page keeps a copy of itself, so it opens with no connection, and sync catches up when you are back online. Files needed: `index.html`, `data.js`, `manifest.webmanifest`, `sw.js` and the three `icon-*.png`.
 
 ## Edit the plan
 
-Change `seed.sql`, rebuild (steps above), commit `data.js`. Saved progress is keyed by topic id. Keep ids stable by adding new topics at the end of `seed.sql`, or take a backup first.
+Edit `seed.sql` on github.com. The workflow in `.github/workflows/build-data.yml` rebuilds `data.js` by itself within a minute. Create it once with **Add file → Create new file**, typing the full path `.github/workflows/build-data.yml`. Without it, rebuild by hand (steps above) and commit `data.js`. Saved progress is keyed by topic id. Keep ids stable by adding new topics at the end of `seed.sql`, or take a backup first.

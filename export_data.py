@@ -7,7 +7,7 @@ e = db.execute("SELECT * FROM exams ORDER BY exam_id LIMIT 1").fetchone()
 q = lambda sql: db.execute(sql, (e["exam_id"],)).fetchall()
 
 data = {
-    "exam": {"name": e["exam_name"], "date": e["exam_date"], "revisionDays": e["revision_days"]},
+    "exam": {"name": e["exam_name"], "date": e["exam_date"], "revisionDays": e["revision_days"], "start": e["study_start"]},
     "subjects": [{"id": r["subject_id"], "name": r["subject_name"]}
                  for r in q("SELECT * FROM subjects WHERE exam_id=? ORDER BY subject_id")],
     "sources": [{"id": r["source_id"], "sub": r["subject_id"], "name": r["source_name"],

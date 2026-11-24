@@ -6,7 +6,8 @@ CREATE TABLE IF NOT EXISTS exams (
   exam_id       INTEGER PRIMARY KEY,
   exam_name     TEXT    NOT NULL,
   exam_date     TEXT    NOT NULL CHECK (date(exam_date) IS NOT NULL),  -- YYYY-MM-DD
-  revision_days INTEGER NOT NULL DEFAULT 14 CHECK (revision_days >= 0)
+  revision_days INTEGER NOT NULL DEFAULT 14 CHECK (revision_days >= 0),
+  study_start   TEXT    CHECK (study_start IS NULL OR date(study_start) IS NOT NULL)  -- day the plan began (for ahead/behind)
 );
 
 CREATE TABLE IF NOT EXISTS subjects (

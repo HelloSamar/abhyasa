@@ -3,7 +3,8 @@ const DATA = {
  "exam": {
   "name": "SSC CGL Mains",
   "date": "2027-01-15",
-  "revisionDays": 5
+  "revisionDays": 5,
+  "start": "2026-11-24"
  },
  "subjects": [
   {
