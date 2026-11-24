@@ -18,6 +18,10 @@ h1{font-size:22px;margin:4px 0 0}
 .row{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
 .sub{font-weight:700;font-size:17px}
 .cnt{font-weight:700;font-size:20px;color:var(--acc);white-space:nowrap}
+.topic{margin-top:12px;padding-top:10px;border-top:1px dashed var(--line)}
+.tname{font-weight:600}
+.ok{color:var(--acc);font-size:13px;margin-left:6px}
+.topic.fin{opacity:.55}
 .bar{height:8px;border-radius:4px;background:var(--bar);overflow:hidden;margin:8px 0}
 .bar i{display:block;height:100%;background:var(--acc)}
 .ctl{display:flex;align-items:center;gap:6px;margin-top:10px}
@@ -43,19 +47,19 @@ textarea{width:100%;height:90px;font:12px monospace;background:var(--card);color
 </details>
 <script src="data.js"></script>
 <script>
-const KEY = "abhyasa-v4";
+const KEY = "abhyasa-v5";
 const byOrder = (a,b) => b.weak - a.weak || a.order - b.order || a.id - b.id;   // weak topics first
 const topicsOf = s => DATA.topics.filter(t => t.src === s.id).sort(byOrder);
-const size = {}; DATA.sources.forEach(s => size[s.id] = topicsOf(s).reduce((a,t) => a + t.units, 0));
+const topicById = Object.create(null); DATA.topics.forEach(t => topicById[t.id] = t);
 
-// Saved state: {v:4, log:{"YYYY-MM-DD":{sourceId:unitsDone}}}
+// Saved state: {v:5, log:{"YYYY-MM-DD":{topicId:unitsDone}}}
 function valid(o){
-  if (!o || o.v !== 4 || !o.log || typeof o.log !== "object" || Array.isArray(o.log)) return false;
+  if (!o || o.v !== 5 || !o.log || typeof o.log !== "object" || Array.isArray(o.log)) return false;
   return Object.keys(o.log).every(d => { const x = o.log[d];
     return /^\d{4}-\d\d-\d\d$/.test(d) && x && typeof x === "object" && !Array.isArray(x) &&
-      Object.keys(x).every(id => id in size && Number.isInteger(x[id]) && x[id] >= 0 && x[id] <= size[id]); });
+      Object.keys(x).every(id => topicById[id] && Number.isInteger(x[id]) && x[id] >= 0 && x[id] <= topicById[id].units); });
 }
-let st = {v:4, log:{}};
+let st = {v:5, log:{}};
 try { const s = JSON.parse(localStorage.getItem(KEY)); if (valid(s)) st = s; } catch(e) {}
 const save = () => { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch(e) {} };
 
@@ -68,8 +72,8 @@ const exam = day(DATA.exam.date);
 const studyEnd = new Date(exam); studyEnd.setDate(exam.getDate() - DATA.exam.revisionDays);
 let today = iso(new Date());
 const tick = () => { today = iso(new Date()); };
-const doneToday = s => (st.log[today] || {})[s.id] || 0;
-const before = s => Object.keys(st.log).reduce((a,d) => d === today ? a : a + (st.log[d][s.id] || 0), 0);
+const tdy = t => (st.log[today] || {})[t.id] || 0;
+const before = t => Object.keys(st.log).reduce((a,d) => d === today ? a : a + (st.log[d][t.id] || 0), 0);
 const subName = id => (DATA.subjects.find(x => x.id === id) || {}).name || "";
 
 function render(){
@@ -78,32 +82,37 @@ function render(){
   const toExam = Math.round((exam - day(today)) / 864e5);
   const items = [];
   DATA.sources.forEach(s => {
-    const b = before(s), done = doneToday(s), rem = Math.max(0, size[s.id] - b);
+    const ts = topicsOf(s);
+    const rem = Math.max(0, ts.reduce((a,t) => a + t.units - before(t), 0));   // left at the start of today
     const target = left < 1 ? rem : Math.ceil(rem / left);
-    if (target > 0) items.push({s, b, done, target});
+    const done = ts.reduce((a,t) => a + tdy(t), 0);
+    if (target > 0) items.push({s, ts, target, done});
   });
   items.sort((a,z) => (a.done >= a.target) - (z.done >= z.target) || a.s.id - z.s.id);
 
   let tT = 0, tD = 0, html = "";
-  items.forEach(({s, b, done, target}) => {
+  items.forEach(({s, ts, target, done}) => {
     tT += target * s.mpu; tD += Math.min(done, target) * s.mpu;
     const fin = done >= target, pct = Math.min(100, Math.round(done / target * 100));
-    // where you are in the book
-    let pos = b + done, now = "", ts = topicsOf(s), i = 0;
-    while (i < ts.length && pos >= ts[i].units) { pos -= ts[i].units; i++; }
-    if (i < ts.length) {
-      now = "Now: " + esc(ts[i].name) + " · " + pos + " / " + ts[i].units;
-      if (!fin && target - done > ts[i].units - pos && ts[i+1]) now += " · then " + esc(ts[i+1].name);
-    } else now = "Source finished";
-    const u = s.unit + (target === 1 ? "" : "s");
+    const u = s.unit + "s";
+    // show topics finished today (marked) and the next two unfinished, in order
+    let open = 0, rows = "";
+    ts.forEach(t => {
+      const d = before(t) + tdy(t), isDone = d >= t.units;
+      if (isDone ? before(t) >= t.units : open >= 2) return;      // finished earlier, or beyond the next two
+      if (!isDone) open++;
+      rows += '<div class="topic'+(isDone ? ' fin' : '')+'"><div class="tname">'+esc(t.name)
+        +(t.weak ? ' <span class="ok">weak</span>' : '')+(isDone ? '<span class="ok">✓ completed</span>' : '')+'</div>'
+        +'<div class="mut">'+d+' / '+t.units+' '+u+' · today '+tdy(t)+'</div>'
+        +'<div class="ctl"><button type="button" aria-label="Remove one" data-t="'+t.id+'" data-v="-1">−</button>'
+        +'<button type="button" aria-label="Add one" data-t="'+t.id+'" data-v="1">+1</button>'
+        +(t.units > 5 ? '<button type="button" aria-label="Add five" data-t="'+t.id+'" data-v="5">+5</button>' : '')
+        +(isDone ? '' : '<button type="button" data-t="'+t.id+'" data-v="all">Done</button>')+'</div></div>';
+    });
     html += '<div class="card'+(fin ? ' done' : '')+'"><div class="row"><div class="sub">'+esc(s.name)+'</div>'
       +'<div class="cnt">'+(fin ? '✓ ' : '')+done+' / '+target+'</div></div>'
       +'<div class="mut">'+esc(subName(s.sub))+' · '+target+' '+u+' today · '+target*s.mpu+' min</div>'
-      +'<div class="bar"><i style="width:'+pct+'%"></i></div><div class="mut">'+now+'</div>'
-      +'<div class="ctl"><button type="button" aria-label="Remove one" data-s="'+s.id+'" data-v="-1">−</button>'
-      +'<button type="button" aria-label="Add one" data-s="'+s.id+'" data-v="1">+1</button>'
-      +(s.unit === "mock" ? '' : '<button type="button" aria-label="Add five" data-s="'+s.id+'" data-v="5">+5</button>')
-      +'</div></div>';
+      +'<div class="bar"><i style="width:'+pct+'%"></i></div>'+rows+'</div>';
   });
   if (!items.length) html = '<div class="empty">Nothing due today.</div>';
   const p = items.length ? Math.round(items.reduce((a,x) => a + Math.min(100, x.done / x.target * 100), 0) / items.length) : 100;
@@ -117,9 +126,10 @@ function render(){
 document.getElementById("app").addEventListener("click", e => {
   const b = e.target.closest("button"); if (!b) return;
   tick();
-  const s = DATA.sources.find(x => x.id === +b.dataset.s); if (!s) return;
+  const t = topicById[b.dataset.t]; if (!t) return;
   const L = st.log[today] || (st.log[today] = {});
-  L[s.id] = Math.max(0, Math.min(size[s.id] - before(s), (L[s.id] || 0) + +b.dataset.v));
+  const room = t.units - before(t);
+  L[t.id] = b.dataset.v === "all" ? room : Math.max(0, Math.min(room, (L[t.id] || 0) + +b.dataset.v));
   save(); render();
 });
 
