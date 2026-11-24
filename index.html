@@ -5,37 +5,44 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Abhyasa</title>
 <style>
-:root{--bg:#f6f5f1;--card:#fff;--ink:#1d1d1b;--mut:#6b6a65;--acc:#1d6b4f;--bar:#e4e2da;--line:#e8e6df;--btn:#efede6;color-scheme:light dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root{--bg:#f6f5f1;--card:#fff;--ink:#1d1d1b;--mut:#8a8984;--acc:#1d6b4f;--bar:#e4e2da;--line:#eeece6;--btn:#efede6;color-scheme:light dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 @media(prefers-color-scheme:dark){:root{--bg:#141413;--card:#1e1e1c;--ink:#f0eee8;--mut:#9b9a93;--acc:#5fcf9f;--bar:#33322e;--line:#2c2b28;--btn:#2b2a27}}
 *{box-sizing:border-box}
 html,body{margin:0}
-body{background:var(--bg);color:var(--ink);font:16px/1.4 -apple-system,system-ui,"Segoe UI",sans-serif;padding:16px 14px 40px;max-width:520px;margin:0 auto}
-h1{font-size:22px;margin:4px 0 0}
-.mut{color:var(--mut);font-size:13px;margin:2px 0}
-.hero{margin:10px 0 14px}
-.big{font-size:28px;font-weight:700;color:var(--acc);margin-top:6px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
-.row{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
-.sub{font-weight:700;font-size:17px}
-.cnt{font-weight:700;font-size:20px;color:var(--acc);white-space:nowrap}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
-.topic{background:var(--bg);border-radius:10px;padding:10px;min-width:0}
-.topic .ctl{flex-wrap:wrap;margin-top:8px}
-.topic button{min-width:38px;height:40px;padding:0 8px;font-size:14px}
-.tname{font-weight:600;overflow-wrap:anywhere}
-.ok{color:var(--acc);font-size:13px;margin-left:6px}
-.topic.fin{opacity:.55}
-.bar{height:8px;border-radius:4px;background:var(--bar);overflow:hidden;margin:8px 0}
-.bar i{display:block;height:100%;background:var(--acc)}
-.ctl{display:flex;align-items:center;gap:6px;margin-top:10px}
-button{font:inherit;background:var(--btn);color:var(--ink);border:0;border-radius:10px;min-width:48px;height:48px;padding:0 14px}
+body{background:var(--bg);color:var(--ink);font:16px/1.35 -apple-system,system-ui,"Segoe UI",sans-serif;padding:14px 12px 40px;max-width:520px;margin:0 auto}
+h1{font-size:24px;margin:2px 0 0}
+.mut{color:var(--mut);font-size:13px}
+.hero{margin:4px 0 14px}
+.bar{height:4px;border-radius:2px;background:var(--bar);overflow:hidden;margin:6px 0}
+.bar i{display:block;height:100%;background:var(--acc);transition:width .3s}
+.grp{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 12px 2px;margin-bottom:10px}
+.gh{display:flex;justify-content:space-between;gap:8px;font-size:13px;font-weight:600;color:var(--mut)}
+.gh b{color:var(--acc);white-space:nowrap}
+button{font:inherit;color:var(--ink);border:0;background:var(--btn);border-radius:10px;min-height:36px;min-width:40px;padding:0 10px}
 button:active{opacity:.6}
 button:focus-visible,summary:focus-visible,textarea:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
-.done{opacity:.55}
+.task{display:flex;align-items:center;flex-wrap:wrap;border-top:1px solid var(--line)}
+.task:first-of-type{border-top:0}
+.chk{width:48px;min-width:48px;height:48px;background:none;padding:0;display:grid;place-items:center}
+.c{width:26px;height:26px;border-radius:50%;border:2px solid var(--mut);display:grid;place-items:center;transition:background .2s,border-color .2s}
+.c svg{opacity:0;transform:scale(.4);transition:opacity .2s,transform .2s}
+.fin .c{background:var(--acc);border-color:var(--acc)}
+.fin .c svg{opacity:1;transform:scale(1)}
+.pop .c{animation:pop .3s}
+@keyframes pop{50%{transform:scale(1.3)}}
+.in{animation:slide .28s ease-out}
+@keyframes slide{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+.body{flex:1;min-width:0;text-align:left;background:none;border-radius:0;padding:8px 0;min-height:48px}
+.tn{font-weight:500;overflow-wrap:anywhere}
+.ts{font-size:12px;color:var(--mut)}
+.fin .tn{text-decoration:line-through;color:var(--mut)}
+.stp{width:100%;display:flex;gap:6px;padding:0 0 10px 48px}
 .empty{text-align:center;padding:28px 0;color:var(--mut)}
 details.bk{margin-top:24px}
 summary{font-weight:600;min-height:30px}
 textarea{width:100%;height:90px;font:12px monospace;background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:8px;margin:8px 0}
+.ctl{display:flex;gap:6px}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
@@ -77,7 +84,9 @@ let today = iso(new Date());
 const tick = () => { today = iso(new Date()); };
 const tdy = t => (st.log[today] || {})[t.id] || 0;
 const before = t => Object.keys(st.log).reduce((a,d) => d === today ? a : a + (st.log[d][t.id] || 0), 0);
-const subName = id => (DATA.subjects.find(x => x.id === id) || {}).name || "";
+
+let prevIds = null, popId = null; const expanded = {};
+const CHECK = '<svg viewBox="0 0 24 24" width="16" height="16"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
 function render(){
   tick();
@@ -93,45 +102,51 @@ function render(){
   });
   items.sort((a,z) => (a.done >= a.target) - (z.done >= z.target) || a.s.id - z.s.id);
 
-  let tT = 0, tD = 0, html = "";
+  let tT = 0, tD = 0, html = ""; const ids = new Set();
   items.forEach(({s, ts, target, done}) => {
     tT += target * s.mpu; tD += Math.min(done, target) * s.mpu;
-    const fin = done >= target, pct = Math.min(100, Math.round(done / target * 100));
     const u = s.unit + "s";
-    // show topics finished today (marked) and the next two unfinished, in order
     let open = 0, rows = "";
-    ts.forEach(t => {
+    ts.forEach(t => {            // finished today (marked) + the next two unfinished, in order
       const d = before(t) + tdy(t), isDone = d >= t.units;
-      if (isDone ? before(t) >= t.units : open >= 2) return;      // finished earlier, or beyond the next two
+      if (isDone ? before(t) >= t.units : open >= 2) return;
       if (!isDone) open++;
-      rows += '<div class="topic'+(isDone ? ' fin' : '')+'"><div class="tname">'+esc(t.name)
-        +(t.weak ? ' <span class="ok">weak</span>' : '')+(isDone ? '<span class="ok">✓ completed</span>' : '')+'</div>'
-        +'<div class="mut">'+d+' / '+t.units+' '+u+'</div>'
-        +'<div class="ctl"><button type="button" aria-label="Remove one" data-t="'+t.id+'" data-v="-1">−</button>'
-        +'<button type="button" aria-label="Add one" data-t="'+t.id+'" data-v="1">+1</button>'
-        +(t.units > 5 ? '<button type="button" aria-label="Add five" data-t="'+t.id+'" data-v="5">+5</button>' : '')
-        +(isDone ? '' : '<button type="button" data-t="'+t.id+'" data-v="all">Done</button>')+'</div></div>';
+      ids.add(t.id);
+      const cls = 'task'+(isDone ? ' fin' : '')+(t.id === popId ? ' pop' : '')+(prevIds && !prevIds.has(t.id) ? ' in' : '');
+      rows += '<div class="'+cls+'"><button type="button" class="chk" data-a="chk" data-t="'+t.id+'" aria-label="'+(isDone ? 'Mark not done: ' : 'Mark done: ')+esc(t.name)+'"><span class="c">'+CHECK+'</span></button>'
+        +'<button type="button" class="body" data-a="exp" data-t="'+t.id+'" aria-expanded="'+!!expanded[t.id]+'"><div class="tn">'+esc(t.name)+(t.weak ? ' · weak' : '')+'</div>'
+        +'<div class="ts">'+(isDone ? 'completed · ' : '')+d+' / '+t.units+' '+u+'</div></button>'
+        +(expanded[t.id] ? '<div class="stp"><button type="button" data-a="step" data-t="'+t.id+'" data-v="-1" aria-label="Remove one">−</button>'
+          +'<button type="button" data-a="step" data-t="'+t.id+'" data-v="1" aria-label="Add one">+1</button>'
+          +(t.units > 5 ? '<button type="button" data-a="step" data-t="'+t.id+'" data-v="5" aria-label="Add five">+5</button>' : '')+'</div>' : '')
+        +'</div>';
     });
-    html += '<div class="card'+(fin ? ' done' : '')+'"><div class="row"><div class="sub">'+esc(s.name)+'</div>'
-      +'<div class="cnt">'+(fin ? '✓ ' : '')+done+' / '+target+'</div></div>'
-      +'<div class="bar"><i style="width:'+pct+'%"></i></div><div class="grid">'+rows+'</div></div>';
+    const pct = Math.min(100, Math.round(done / target * 100));
+    html += '<div class="grp"><div class="gh"><span>'+esc(s.name)+'</span><b>'+done+' / '+target+' '+u+'</b></div>'
+      +'<div class="bar"><i style="width:'+pct+'%"></i></div>'+rows+'</div>';
   });
   if (!items.length) html = '<div class="empty">Nothing due today.</div>';
   const p = items.length ? Math.round(items.reduce((a,x) => a + Math.min(100, x.done / x.target * 100), 0) / items.length) : 100;
   document.getElementById("app").innerHTML = html;
   document.getElementById("hero").innerHTML =
-    '<div class="mut">'+esc(DATA.exam.name)+' · '+toExam+' days to '+fmt(exam)+'</div>'
-    +'<div class="mut">'+(left < 1 ? 'Study period is over · revision &amp; mocks' : 'Study ends '+fmt(studyEnd)+' · then '+DATA.exam.revisionDays+' days revision')+'</div>'
-    +'<div class="big">'+tD+' / '+tT+' min</div><div class="bar"><i style="width:'+p+'%"></i></div>';
+    '<div class="mut">'+esc(DATA.exam.name)+' · '+toExam+' days to '+fmt(exam)+' · '+(left < 1 ? 'revision &amp; mocks' : 'study ends '+fmt(studyEnd))+'</div>'
+    +'<div class="bar"><i style="width:'+p+'%"></i></div><div class="mut">'+tD+' of '+tT+' min today</div>';
+  prevIds = ids; popId = null;
 }
 
 document.getElementById("app").addEventListener("click", e => {
-  const b = e.target.closest("button"); if (!b) return;
+  const b = e.target.closest("[data-a]"); if (!b) return;
   tick();
   const t = topicById[b.dataset.t]; if (!t) return;
+  const a = b.dataset.a;
+  if (a === "exp") { expanded[t.id] = !expanded[t.id]; render(); return; }
   const L = st.log[today] || (st.log[today] = {});
   const room = t.units - before(t);
-  L[t.id] = b.dataset.v === "all" ? room : Math.max(0, Math.min(room, (L[t.id] || 0) + +b.dataset.v));
+  if (a === "chk") {
+    const fin = before(t) + (L[t.id] || 0) >= t.units;
+    L[t.id] = fin ? 0 : room;
+    if (!fin) { popId = t.id; if (typeof navigator !== "undefined" && navigator.vibrate) navigator.vibrate(12); }
+  } else L[t.id] = Math.max(0, Math.min(room, (L[t.id] || 0) + +b.dataset.v));
   save(); render();
 });
 
