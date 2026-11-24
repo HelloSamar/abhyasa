@@ -2,57 +2,38 @@
 
 **Practice. Prepare. Perform.**
 
-A small study-tracker database.
+A small study planner: a SQLite database holds the plan, and a one-page web app shows today's target per source and lets you log what you did.
 
-## What it shows
+## How it fits together
 
-For every topic:
+- `schema.sql` creates the tables (Exam > Subject > Source > Topic). Safe to re-run.
+- `seed.sql` holds your plan. Each source has one unit (`page`, `video` or `mock`) and minutes per unit. Each topic has a size in that unit.
+- `query.sql` lists every topic with its number within the subject and the date study ends.
+- `export_data.py` writes `data.js` from the database. `index.html` reads `data.js`, so the plan lives in one place.
+- Progress is **not** in the database. It is saved in your browser (`localStorage`).
 
-1. Category
-2. Source name
-3. Topic name
-4. Length (pages, videos, or mock tests)
-5. Topic number within its category
-6. Source target completion date
-
-## Files
-
-- `schema.sql` creates the tables
-- `seed.sql` adds sample data
-- `query.sql` runs the report
-
-## Run it
+## Build
 
 ```
+rm -f abhyasa.db
 sqlite3 abhyasa.db < schema.sql
 sqlite3 abhyasa.db < seed.sql
-sqlite3 -header -column abhyasa.db < query.sql
+sqlite3 -header -column abhyasa.db < query.sql   # optional report
+python3 export_data.py                            # writes data.js
 ```
 
-## Sample output
-
-| category | source | topic | pages | videos | mocks | no | due |
-|---|---|---|---|---|---|---|---|
-| English | Grammar PDF | Tenses | 30 |  | 2 | 1 | 2026-12-20 |
-| English | Grammar PDF | Articles | 18 |  | 1 | 2 | 2026-12-20 |
-| Maths | Quant Book | Percentages | 40 |  | 2 | 1 | 2026-12-31 |
-| Maths | Quant Book | Ratio | 35 |  | 1 | 2 | 2026-12-31 |
-| Maths | Maths Videos | Algebra |  | 25 | 3 | 3 | 2027-01-15 |
-
-## Notes
-
-- `no` restarts at 1 in each category.
-- `pages` or `videos` is empty, depending on the source type.
-- Target date is stored per source.
+Commit `data.js` with `index.html`: GitHub Pages needs both.
 
 ## Daily page
 
-`index.html` shows today’s target per source and lets you
-log what you did today (pages/videos and mock tests).
+`index.html` shows today's target per source and lets you log what you did.
 
-- Target = remaining ÷ days left until the source’s due date.
-- Progress is saved in your phone’s browser.
-- To view it on iPhone: repo **Settings → Pages**, deploy
-  from the `main` branch, then open the link in Safari.
-- Edit the `DATA` block at the top of the file to change
-  sources, topics and dates.
+- Study ends `revision_days` before the exam date. After that comes revision and mocks.
+- Target for a source = units remaining at the start of today ÷ days left to study (today counts), rounded up. Your progress today does not change today's target.
+- Overall progress is the average of each subject's progress, so one subject cannot hide another.
+- Backup: "Show backup" prints your progress as text. Copy it into Notes now and then. "Restore from text" replaces everything saved in this browser.
+- Phone: repo **Settings → Pages**, deploy from `main`, open the link in Safari.
+
+## Edit the plan
+
+Change `seed.sql`, rebuild (steps above), commit `data.js`. Topic ids can change when you rebuild from scratch, and saved progress is keyed by topic id. Keep ids stable by adding rows at the end, or take a backup first.
