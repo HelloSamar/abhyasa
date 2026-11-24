@@ -345,8 +345,8 @@ const DATA = {
   {
    "id": 33,
    "src": 3,
-   "name": "Whole book",
-   "units": 657,
+   "name": "Spot the Error",
+   "units": 62,
    "order": 1,
    "weak": 0
   },
@@ -540,6 +540,118 @@ const DATA = {
    "name": "Root Word",
    "units": 36,
    "order": 6,
+   "weak": 0
+  },
+  {
+   "id": 58,
+   "src": 3,
+   "name": "Sentence Improvement",
+   "units": 64,
+   "order": 2,
+   "weak": 0
+  },
+  {
+   "id": 59,
+   "src": 3,
+   "name": "Narration",
+   "units": 33,
+   "order": 3,
+   "weak": 0
+  },
+  {
+   "id": 60,
+   "src": 3,
+   "name": "Active Passive",
+   "units": 35,
+   "order": 4,
+   "weak": 0
+  },
+  {
+   "id": 61,
+   "src": 3,
+   "name": "Para Jumble",
+   "units": 53,
+   "order": 5,
+   "weak": 0
+  },
+  {
+   "id": 62,
+   "src": 3,
+   "name": "Fill in the Blanks",
+   "units": 45,
+   "order": 6,
+   "weak": 0
+  },
+  {
+   "id": 63,
+   "src": 3,
+   "name": "Cloze Test",
+   "units": 58,
+   "order": 7,
+   "weak": 0
+  },
+  {
+   "id": 64,
+   "src": 3,
+   "name": "Comprehension",
+   "units": 43,
+   "order": 8,
+   "weak": 0
+  },
+  {
+   "id": 65,
+   "src": 3,
+   "name": "One Word Substitution",
+   "units": 53,
+   "order": 9,
+   "weak": 0
+  },
+  {
+   "id": 66,
+   "src": 3,
+   "name": "Idioms",
+   "units": 50,
+   "order": 10,
+   "weak": 0
+  },
+  {
+   "id": 67,
+   "src": 3,
+   "name": "Synonyms",
+   "units": 58,
+   "order": 11,
+   "weak": 0
+  },
+  {
+   "id": 68,
+   "src": 3,
+   "name": "Antonyms",
+   "units": 56,
+   "order": 12,
+   "weak": 0
+  },
+  {
+   "id": 69,
+   "src": 3,
+   "name": "Spelling Check",
+   "units": 34,
+   "order": 13,
+   "weak": 0
+  },
+  {
+   "id": 70,
+   "src": 3,
+   "name": "Homonyms",
+   "units": 11,
+   "order": 14,
+   "weak": 0
+  },
+  {
+   "id": 71,
+   "src": 3,
+   "name": "Miscellaneous",
+   "units": 2,
+   "order": 15,
    "weak": 0
   }
  ]

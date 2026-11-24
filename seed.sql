@@ -35,7 +35,8 @@ INSERT INTO topics (source_id, topic_name, units, topic_order) VALUES
   -- Other English books: whole book for now
   -- Blackbook English Vocabulary: pages 1-572 (chapters 2-6 are added at the end of this file)
   (2,'One Word Substitution',110,1),
-  (3,'Whole book',657,1),
+  -- Pinnacle English (8th ed.): pages 1-657 (chapters 2-15 are added at the end of this file)
+  (3,'Spot the Error',62,1),
   -- Maths, GS
   (4,'Whole book',672,1),
   (5,'Whole book',509,1),
@@ -61,3 +62,21 @@ INSERT INTO topics (source_id, topic_name, units, topic_order) VALUES
   (2,'Hindu Vocabulary',49,4),
   (2,'Special Word',78,5),
   (2,'Root Word',36,6);
+
+-- Pinnacle English chapters 2-15, appended so existing topic ids stay the same.
+-- Sizes are pages (last - first + 1), not question counts.
+INSERT INTO topics (source_id, topic_name, units, topic_order) VALUES
+  (3,'Sentence Improvement',64,2),
+  (3,'Narration',33,3),
+  (3,'Active Passive',35,4),
+  (3,'Para Jumble',53,5),
+  (3,'Fill in the Blanks',45,6),
+  (3,'Cloze Test',58,7),
+  (3,'Comprehension',43,8),
+  (3,'One Word Substitution',53,9),
+  (3,'Idioms',50,10),
+  (3,'Synonyms',58,11),
+  (3,'Antonyms',56,12),
+  (3,'Spelling Check',34,13),
+  (3,'Homonyms',11,14),
+  (3,'Miscellaneous',2,15);
