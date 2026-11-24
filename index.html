@@ -19,8 +19,7 @@ body{background:var(--bg);color:var(--ink);font:17px/1.4 -apple-system,system-ui
 h1{font-size:32px;font-weight:700;letter-spacing:-.02em;margin:0}
 .mut{color:var(--mut);font-size:13px}
 .hero{margin:4px 0 16px}
-.chips{display:flex;gap:8px;overflow-x:auto;padding:2px 0 18px;scrollbar-width:none}
-.chips::-webkit-scrollbar{display:none}
+.chips{display:flex;flex-wrap:wrap;gap:8px;padding:2px 0 16px}
 button{font:inherit;color:var(--ink);border:0;background:var(--btn);border-radius:10px;min-height:36px;min-width:40px;padding:0 12px}
 button:active{opacity:.6}
 button:focus-visible,summary:focus-visible,textarea:focus-visible,input:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
@@ -30,6 +29,8 @@ button:focus-visible,summary:focus-visible,textarea:focus-visible,input:focus-vi
 .s1{--sc:var(--c1)}.s2{--sc:var(--c2)}.s3{--sc:var(--c3)}.s4{--sc:var(--c4)}.s5{--sc:var(--c5)}
 .grp{margin:0 0 28px}
 .gh{display:flex;justify-content:space-between;gap:8px;font-size:13px;font-weight:600;color:var(--mut);padding-bottom:4px;border-bottom:1px solid var(--line)}
+.gh span:first-child{min-width:0}
+.gh span:last-child{white-space:nowrap}
 .gh span:first-child::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--sc);margin-right:7px}
 .task{display:flex;align-items:center;flex-wrap:wrap;border-bottom:1px solid var(--line)}
 .chk{width:46px;min-width:46px;height:56px;background:none;padding:0;display:grid;place-items:center;border-radius:0;justify-items:start}
@@ -41,7 +42,7 @@ button:focus-visible,summary:focus-visible,textarea:focus-visible,input:focus-vi
 .tn{font-size:18px;overflow-wrap:anywhere}
 .ts{font-size:13px;color:var(--mut)}
 .fin .tn{text-decoration:line-through;color:var(--mut)}
-.stp{width:100%;display:flex;gap:8px;padding:0 0 12px 46px}
+.stp{width:100%;display:flex;flex-wrap:wrap;gap:8px;padding:0 0 12px 46px}
 .empty{text-align:center;padding:48px 0;color:var(--mut)}
 details{margin-top:8px;color:var(--mut)}
 summary{font-size:14px;min-height:44px;padding:10px 0}
