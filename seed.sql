@@ -33,7 +33,8 @@ INSERT INTO topics (source_id, topic_name, units, topic_order) VALUES
   (1,'Modals',10,27),(1,'Superfluous Expression',4,28),(1,'Spellings',24,29),
   (1,'Proverb',3,30),(1,'Legal Terms',8,31),
   -- Other English books: whole book for now
-  (2,'Whole book',572,1),
+  -- Blackbook English Vocabulary: pages 1-572 (chapters 2-6 are added at the end of this file)
+  (2,'One Word Substitution',110,1),
   (3,'Whole book',657,1),
   -- Maths, GS
   (4,'Whole book',672,1),
@@ -51,3 +52,12 @@ INSERT INTO topics (source_id, topic_name, units, topic_order) VALUES
   (7,'Pages after chapter 14 (156-191)',36,15),
   -- Reasoning
   (8,'Mock tests',45,1);
+
+-- Blackbook chapters 2-6. Kept in a separate INSERT, after everything else,
+-- so the topic ids of all existing topics stay the same (saved progress uses them).
+INSERT INTO topics (source_id, topic_name, units, topic_order) VALUES
+  (2,'Idioms/Phrases',116,2),
+  (2,'Antonyms & Synonyms',183,3),
+  (2,'Hindu Vocabulary',49,4),
+  (2,'Special Word',78,5),
+  (2,'Root Word',36,6);

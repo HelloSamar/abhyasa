@@ -337,8 +337,8 @@ const DATA = {
   {
    "id": 32,
    "src": 2,
-   "name": "Whole book",
-   "units": 572,
+   "name": "One Word Substitution",
+   "units": 110,
    "order": 1,
    "weak": 0
   },
@@ -500,6 +500,46 @@ const DATA = {
    "name": "Mock tests",
    "units": 45,
    "order": 1,
+   "weak": 0
+  },
+  {
+   "id": 53,
+   "src": 2,
+   "name": "Idioms/Phrases",
+   "units": 116,
+   "order": 2,
+   "weak": 0
+  },
+  {
+   "id": 54,
+   "src": 2,
+   "name": "Antonyms & Synonyms",
+   "units": 183,
+   "order": 3,
+   "weak": 0
+  },
+  {
+   "id": 55,
+   "src": 2,
+   "name": "Hindu Vocabulary",
+   "units": 49,
+   "order": 4,
+   "weak": 0
+  },
+  {
+   "id": 56,
+   "src": 2,
+   "name": "Special Word",
+   "units": 78,
+   "order": 5,
+   "weak": 0
+  },
+  {
+   "id": 57,
+   "src": 2,
+   "name": "Root Word",
+   "units": 36,
+   "order": 6,
    "weak": 0
   }
  ]
