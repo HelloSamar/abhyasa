@@ -61,14 +61,17 @@ const topicsOf = s => DATA.topics.filter(t => t.src === s.id).sort(byOrder);
 const topicById = Object.create(null); DATA.topics.forEach(t => topicById[t.id] = t);
 
 // Saved state: {v:5, log:{"YYYY-MM-DD":{topicId:unitsDone}}}
-function valid(o){
-  if (!o || o.v !== 5 || !o.log || typeof o.log !== "object" || Array.isArray(o.log)) return false;
-  return Object.keys(o.log).every(d => { const x = o.log[d];
-    return /^\d{4}-\d\d-\d\d$/.test(d) && x && typeof x === "object" && !Array.isArray(x) &&
-      Object.keys(x).every(id => topicById[id] && Number.isInteger(x[id]) && x[id] >= 0 && x[id] <= topicById[id].units); });
+function clean(o){            // keep what still matches the plan; drop unknown topics, clamp to chapter size
+  if (!o || o.v !== 5 || !o.log || typeof o.log !== "object" || Array.isArray(o.log)) return null;
+  const out = {v:5, log:{}};
+  Object.keys(o.log).forEach(d => { const x = o.log[d];
+    if (!/^\d{4}-\d\d-\d\d$/.test(d) || !x || typeof x !== "object" || Array.isArray(x)) return;
+    Object.keys(x).forEach(id => { const t = topicById[id];
+      if (t && Number.isInteger(x[id]) && x[id] > 0) (out.log[d] || (out.log[d] = {}))[id] = Math.min(x[id], t.units); }); });
+  return out;
 }
 let st = {v:5, log:{}};
-try { const s = JSON.parse(localStorage.getItem(KEY)); if (valid(s)) st = s; } catch(e) {}
+try { const c = clean(JSON.parse(localStorage.getItem(KEY))); if (c) st = c; } catch(e) {}
 const save = () => { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch(e) {} };
 
 const pad = n => String(n).padStart(2,"0");
@@ -153,7 +156,8 @@ const bk = document.getElementById("bk");
 document.getElementById("exp").onclick = () => { bk.value = JSON.stringify(st); bk.focus(); bk.select(); };
 document.getElementById("imp").onclick = () => {
   let o; try { o = JSON.parse(bk.value); } catch(e) {}
-  if (!valid(o)) { bk.value = "That text is not a valid backup for this plan."; return; }
+  o = clean(o);
+  if (!o) { bk.value = "That text is not a valid backup for this plan."; return; }
   if (!confirm("Replace all progress saved in this browser?")) return;
   st = o; save(); render(); bk.value = "Restored.";
 };

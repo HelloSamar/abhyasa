@@ -57,16 +57,9 @@ const DATA = {
    "mpu": 5
   },
   {
-   "id": 5,
-   "sub": 3,
-   "name": "Parmar Fatman",
-   "unit": "page",
-   "mpu": 2
-  },
-  {
    "id": 6,
    "sub": 3,
-   "name": "Pinnacle GS",
+   "name": "Pinnacle GS (8th ed.)",
    "unit": "question",
    "mpu": 1
   },
@@ -104,6 +97,13 @@ const DATA = {
    "name": "English Vocabulary videos",
    "unit": "video",
    "mpu": 20
+  },
+  {
+   "id": 12,
+   "sub": 3,
+   "name": "Parmar Fatman videos",
+   "unit": "video",
+   "mpu": 30
   }
  ],
  "topics": [
@@ -376,14 +376,6 @@ const DATA = {
    "src": 4,
    "name": "Number system",
    "units": 25,
-   "order": 1,
-   "weak": 0
-  },
-  {
-   "id": 35,
-   "src": 5,
-   "name": "Whole book",
-   "units": 509,
    "order": 1,
    "weak": 0
   },
@@ -2761,6 +2753,1054 @@ const DATA = {
    "name": "Pages after Probability (643-672)",
    "units": 30,
    "order": 28,
+   "weak": 0
+  },
+  {
+   "id": 333,
+   "src": 12,
+   "name": "Static GK - Classical Dance",
+   "units": 1,
+   "order": 1,
+   "weak": 0
+  },
+  {
+   "id": 334,
+   "src": 12,
+   "name": "Static GK - Folk Dance",
+   "units": 1,
+   "order": 2,
+   "weak": 0
+  },
+  {
+   "id": 335,
+   "src": 12,
+   "name": "Static GK - Census",
+   "units": 1,
+   "order": 3,
+   "weak": 0
+  },
+  {
+   "id": 336,
+   "src": 12,
+   "name": "Static GK - Musical Instruments",
+   "units": 1,
+   "order": 4,
+   "weak": 0
+  },
+  {
+   "id": 337,
+   "src": 12,
+   "name": "Static GK - Gharana",
+   "units": 1,
+   "order": 5,
+   "weak": 0
+  },
+  {
+   "id": 338,
+   "src": 12,
+   "name": "Static GK - Books and Authors 01",
+   "units": 1,
+   "order": 6,
+   "weak": 0
+  },
+  {
+   "id": 339,
+   "src": 12,
+   "name": "Static GK - Books and Authors 02",
+   "units": 1,
+   "order": 7,
+   "weak": 0
+  },
+  {
+   "id": 340,
+   "src": 12,
+   "name": "Static GK - Important Days",
+   "units": 1,
+   "order": 8,
+   "weak": 0
+  },
+  {
+   "id": 341,
+   "src": 12,
+   "name": "Static GK - International Relations",
+   "units": 1,
+   "order": 9,
+   "weak": 0
+  },
+  {
+   "id": 342,
+   "src": 12,
+   "name": "Static GK - National Organisations",
+   "units": 1,
+   "order": 10,
+   "weak": 0
+  },
+  {
+   "id": 343,
+   "src": 12,
+   "name": "Static GK - Sports 01",
+   "units": 1,
+   "order": 11,
+   "weak": 0
+  },
+  {
+   "id": 344,
+   "src": 12,
+   "name": "Static GK - Sports 02",
+   "units": 1,
+   "order": 12,
+   "weak": 0
+  },
+  {
+   "id": 345,
+   "src": 12,
+   "name": "Static GK - Sports 03",
+   "units": 1,
+   "order": 13,
+   "weak": 0
+  },
+  {
+   "id": 346,
+   "src": 12,
+   "name": "Geography - Solar System",
+   "units": 1,
+   "order": 14,
+   "weak": 0
+  },
+  {
+   "id": 347,
+   "src": 12,
+   "name": "Geography - Longitude & Latitude",
+   "units": 1,
+   "order": 15,
+   "weak": 0
+  },
+  {
+   "id": 348,
+   "src": 12,
+   "name": "Geography - Earth's Interior & Plate Tectonics",
+   "units": 1,
+   "order": 16,
+   "weak": 0
+  },
+  {
+   "id": 349,
+   "src": 12,
+   "name": "Geography - Continent and Ocean",
+   "units": 1,
+   "order": 17,
+   "weak": 0
+  },
+  {
+   "id": 350,
+   "src": 12,
+   "name": "Geography - Rocks and Volcano",
+   "units": 1,
+   "order": 18,
+   "weak": 0
+  },
+  {
+   "id": 351,
+   "src": 12,
+   "name": "Geography - Geomorphic Processes",
+   "units": 1,
+   "order": 19,
+   "weak": 0
+  },
+  {
+   "id": 352,
+   "src": 12,
+   "name": "Geography - Landforms",
+   "units": 1,
+   "order": 20,
+   "weak": 0
+  },
+  {
+   "id": 353,
+   "src": 12,
+   "name": "Geography - Atmosphere",
+   "units": 1,
+   "order": 21,
+   "weak": 0
+  },
+  {
+   "id": 354,
+   "src": 12,
+   "name": "Geography - Condensation and Precipitation",
+   "units": 1,
+   "order": 22,
+   "weak": 0
+  },
+  {
+   "id": 355,
+   "src": 12,
+   "name": "Geography - Winds",
+   "units": 1,
+   "order": 23,
+   "weak": 0
+  },
+  {
+   "id": 356,
+   "src": 12,
+   "name": "Geography - Cyclone and Ocean Current",
+   "units": 1,
+   "order": 24,
+   "weak": 0
+  },
+  {
+   "id": 357,
+   "src": 12,
+   "name": "Geography - India & It's location",
+   "units": 1,
+   "order": 25,
+   "weak": 0
+  },
+  {
+   "id": 358,
+   "src": 12,
+   "name": "Geography - Himalayas",
+   "units": 1,
+   "order": 26,
+   "weak": 0
+  },
+  {
+   "id": 359,
+   "src": 12,
+   "name": "Geography - Peninsular Plateau",
+   "units": 1,
+   "order": 27,
+   "weak": 0
+  },
+  {
+   "id": 360,
+   "src": 12,
+   "name": "Geography - Plains & Islands",
+   "units": 1,
+   "order": 28,
+   "weak": 0
+  },
+  {
+   "id": 361,
+   "src": 12,
+   "name": "Geography - Himalayan River System",
+   "units": 1,
+   "order": 29,
+   "weak": 0
+  },
+  {
+   "id": 362,
+   "src": 12,
+   "name": "Geography - Peninsular River System",
+   "units": 1,
+   "order": 30,
+   "weak": 0
+  },
+  {
+   "id": 363,
+   "src": 12,
+   "name": "Geography - Dams, Lake & Waterfalls",
+   "units": 1,
+   "order": 31,
+   "weak": 0
+  },
+  {
+   "id": 364,
+   "src": 12,
+   "name": "Geography - Monsoon",
+   "units": 1,
+   "order": 32,
+   "weak": 0
+  },
+  {
+   "id": 365,
+   "src": 12,
+   "name": "Geography - Forests and Grasslands",
+   "units": 1,
+   "order": 33,
+   "weak": 0
+  },
+  {
+   "id": 366,
+   "src": 12,
+   "name": "Geography - Soil",
+   "units": 1,
+   "order": 34,
+   "weak": 0
+  },
+  {
+   "id": 367,
+   "src": 12,
+   "name": "Geography - Agriculture",
+   "units": 1,
+   "order": 35,
+   "weak": 0
+  },
+  {
+   "id": 368,
+   "src": 12,
+   "name": "Geography - Minerals",
+   "units": 1,
+   "order": 36,
+   "weak": 0
+  },
+  {
+   "id": 369,
+   "src": 12,
+   "name": "Geography - Transport",
+   "units": 1,
+   "order": 37,
+   "weak": 0
+  },
+  {
+   "id": 370,
+   "src": 12,
+   "name": "Geography - Human Geography",
+   "units": 1,
+   "order": 38,
+   "weak": 0
+  },
+  {
+   "id": 371,
+   "src": 12,
+   "name": "Geography - World Map 01",
+   "units": 1,
+   "order": 39,
+   "weak": 0
+  },
+  {
+   "id": 372,
+   "src": 12,
+   "name": "Geography - World Map 02",
+   "units": 1,
+   "order": 40,
+   "weak": 0
+  },
+  {
+   "id": 373,
+   "src": 12,
+   "name": "Geography - National Parks & Biosphere Reserves",
+   "units": 1,
+   "order": 41,
+   "weak": 0
+  },
+  {
+   "id": 374,
+   "src": 12,
+   "name": "Polity - Making of Constitution",
+   "units": 1,
+   "order": 42,
+   "weak": 0
+  },
+  {
+   "id": 375,
+   "src": 12,
+   "name": "Polity - Salient Features of the Constitution",
+   "units": 1,
+   "order": 43,
+   "weak": 0
+  },
+  {
+   "id": 376,
+   "src": 12,
+   "name": "Polity - Preamble",
+   "units": 1,
+   "order": 44,
+   "weak": 0
+  },
+  {
+   "id": 377,
+   "src": 12,
+   "name": "Polity - Part 1 & 2 of Constitution",
+   "units": 1,
+   "order": 45,
+   "weak": 0
+  },
+  {
+   "id": 378,
+   "src": 12,
+   "name": "Polity - Fundamental Rights 01",
+   "units": 1,
+   "order": 46,
+   "weak": 0
+  },
+  {
+   "id": 379,
+   "src": 12,
+   "name": "Polity - Fundamental Rights 02",
+   "units": 1,
+   "order": 47,
+   "weak": 0
+  },
+  {
+   "id": 380,
+   "src": 12,
+   "name": "Polity - DPSP and Fundamental Duties",
+   "units": 1,
+   "order": 48,
+   "weak": 0
+  },
+  {
+   "id": 381,
+   "src": 12,
+   "name": "Polity - President & Vice President",
+   "units": 1,
+   "order": 49,
+   "weak": 0
+  },
+  {
+   "id": 382,
+   "src": 12,
+   "name": "Polity - Prime Minister & Council of Ministers",
+   "units": 1,
+   "order": 50,
+   "weak": 0
+  },
+  {
+   "id": 383,
+   "src": 12,
+   "name": "Polity - Parliament 01",
+   "units": 1,
+   "order": 51,
+   "weak": 0
+  },
+  {
+   "id": 384,
+   "src": 12,
+   "name": "Polity - Parliament 02",
+   "units": 1,
+   "order": 52,
+   "weak": 0
+  },
+  {
+   "id": 385,
+   "src": 12,
+   "name": "Polity - Parliament 03",
+   "units": 1,
+   "order": 53,
+   "weak": 0
+  },
+  {
+   "id": 386,
+   "src": 12,
+   "name": "Polity - State Legislature",
+   "units": 1,
+   "order": 54,
+   "weak": 0
+  },
+  {
+   "id": 387,
+   "src": 12,
+   "name": "Polity - Courts",
+   "units": 1,
+   "order": 55,
+   "weak": 0
+  },
+  {
+   "id": 388,
+   "src": 12,
+   "name": "Polity - Local Bodies 01",
+   "units": 1,
+   "order": 56,
+   "weak": 0
+  },
+  {
+   "id": 389,
+   "src": 12,
+   "name": "Polity - Local Bodies 02",
+   "units": 1,
+   "order": 57,
+   "weak": 0
+  },
+  {
+   "id": 390,
+   "src": 12,
+   "name": "Polity - Constitutional and Non - Constitutional Bodies",
+   "units": 1,
+   "order": 58,
+   "weak": 0
+  },
+  {
+   "id": 391,
+   "src": 12,
+   "name": "Polity - Emergency Amendments & Inter - State Relations",
+   "units": 1,
+   "order": 59,
+   "weak": 0
+  },
+  {
+   "id": 392,
+   "src": 12,
+   "name": "Polity - Important Acts",
+   "units": 1,
+   "order": 60,
+   "weak": 0
+  },
+  {
+   "id": 393,
+   "src": 12,
+   "name": "History - Stone Age",
+   "units": 1,
+   "order": 61,
+   "weak": 0
+  },
+  {
+   "id": 394,
+   "src": 12,
+   "name": "History - Indus Valley Civilization",
+   "units": 1,
+   "order": 62,
+   "weak": 0
+  },
+  {
+   "id": 395,
+   "src": 12,
+   "name": "History - Vedic Age",
+   "units": 1,
+   "order": 63,
+   "weak": 0
+  },
+  {
+   "id": 396,
+   "src": 12,
+   "name": "History - Jainism & Buddhism",
+   "units": 1,
+   "order": 64,
+   "weak": 0
+  },
+  {
+   "id": 397,
+   "src": 12,
+   "name": "History - Mahajanapadas & Magadha Empire",
+   "units": 1,
+   "order": 65,
+   "weak": 0
+  },
+  {
+   "id": 398,
+   "src": 12,
+   "name": "History - Maurya Empire",
+   "units": 1,
+   "order": 66,
+   "weak": 0
+  },
+  {
+   "id": 399,
+   "src": 12,
+   "name": "History - Post-Mauryan Dynasties",
+   "units": 1,
+   "order": 67,
+   "weak": 0
+  },
+  {
+   "id": 400,
+   "src": 12,
+   "name": "History - Sangam Age",
+   "units": 1,
+   "order": 68,
+   "weak": 0
+  },
+  {
+   "id": 401,
+   "src": 12,
+   "name": "History - Guptas",
+   "units": 1,
+   "order": 69,
+   "weak": 0
+  },
+  {
+   "id": 402,
+   "src": 12,
+   "name": "History - Chalukyas",
+   "units": 1,
+   "order": 70,
+   "weak": 0
+  },
+  {
+   "id": 403,
+   "src": 12,
+   "name": "History - Cholas & Tripartite Struggle",
+   "units": 1,
+   "order": 71,
+   "weak": 0
+  },
+  {
+   "id": 404,
+   "src": 12,
+   "name": "History - Delhi Sultanate Part 1",
+   "units": 1,
+   "order": 72,
+   "weak": 0
+  },
+  {
+   "id": 405,
+   "src": 12,
+   "name": "History - Delhi Sultanate Part 2",
+   "units": 1,
+   "order": 73,
+   "weak": 0
+  },
+  {
+   "id": 406,
+   "src": 12,
+   "name": "History - Vijayanagar & Bahmanis",
+   "units": 1,
+   "order": 74,
+   "weak": 0
+  },
+  {
+   "id": 407,
+   "src": 12,
+   "name": "History - Mughal Empire Part 1",
+   "units": 1,
+   "order": 75,
+   "weak": 0
+  },
+  {
+   "id": 408,
+   "src": 12,
+   "name": "History - Mughal Empire Part 2",
+   "units": 1,
+   "order": 76,
+   "weak": 0
+  },
+  {
+   "id": 409,
+   "src": 12,
+   "name": "History - Advent of Europeans",
+   "units": 1,
+   "order": 77,
+   "weak": 0
+  },
+  {
+   "id": 410,
+   "src": 12,
+   "name": "History - Marathas",
+   "units": 1,
+   "order": 78,
+   "weak": 0
+  },
+  {
+   "id": 411,
+   "src": 12,
+   "name": "History - Socio-Religious Reform Movements",
+   "units": 1,
+   "order": 79,
+   "weak": 0
+  },
+  {
+   "id": 412,
+   "src": 12,
+   "name": "History - 1857 Revolt",
+   "units": 1,
+   "order": 80,
+   "weak": 0
+  },
+  {
+   "id": 413,
+   "src": 12,
+   "name": "History - Indian National Congress",
+   "units": 1,
+   "order": 81,
+   "weak": 0
+  },
+  {
+   "id": 414,
+   "src": 12,
+   "name": "History - Bengal Partition",
+   "units": 1,
+   "order": 82,
+   "weak": 0
+  },
+  {
+   "id": 415,
+   "src": 12,
+   "name": "History - Emergence of Gandhi",
+   "units": 1,
+   "order": 83,
+   "weak": 0
+  },
+  {
+   "id": 416,
+   "src": 12,
+   "name": "History - Civil Disobedience Movement & Simon Commission",
+   "units": 1,
+   "order": 84,
+   "weak": 0
+  },
+  {
+   "id": 417,
+   "src": 12,
+   "name": "History - Quit India Movement",
+   "units": 1,
+   "order": 85,
+   "weak": 0
+  },
+  {
+   "id": 418,
+   "src": 12,
+   "name": "History - Bhakti & Sufi Movement",
+   "units": 1,
+   "order": 86,
+   "weak": 0
+  },
+  {
+   "id": 419,
+   "src": 12,
+   "name": "Economics - Basics of Economics",
+   "units": 1,
+   "order": 87,
+   "weak": 0
+  },
+  {
+   "id": 420,
+   "src": 12,
+   "name": "Economics - Microeconomics",
+   "units": 1,
+   "order": 88,
+   "weak": 0
+  },
+  {
+   "id": 421,
+   "src": 12,
+   "name": "Economics - National Income",
+   "units": 1,
+   "order": 89,
+   "weak": 0
+  },
+  {
+   "id": 422,
+   "src": 12,
+   "name": "Economics - Inflation & Unemployment",
+   "units": 1,
+   "order": 90,
+   "weak": 0
+  },
+  {
+   "id": 423,
+   "src": 12,
+   "name": "Economics - Budget and Taxation",
+   "units": 1,
+   "order": 91,
+   "weak": 0
+  },
+  {
+   "id": 424,
+   "src": 12,
+   "name": "Economics - Money and Banking",
+   "units": 1,
+   "order": 92,
+   "weak": 0
+  },
+  {
+   "id": 425,
+   "src": 12,
+   "name": "Economics - Monetary Policy",
+   "units": 1,
+   "order": 93,
+   "weak": 0
+  },
+  {
+   "id": 426,
+   "src": 12,
+   "name": "Economics - Theory of Money",
+   "units": 1,
+   "order": 94,
+   "weak": 0
+  },
+  {
+   "id": 427,
+   "src": 12,
+   "name": "Economics - Balance of Payments and Poverty",
+   "units": 1,
+   "order": 95,
+   "weak": 0
+  },
+  {
+   "id": 428,
+   "src": 12,
+   "name": "Economics - Year Plans",
+   "units": 1,
+   "order": 96,
+   "weak": 0
+  },
+  {
+   "id": 429,
+   "src": 12,
+   "name": "Economics - Production & Costs 01",
+   "units": 1,
+   "order": 97,
+   "weak": 0
+  },
+  {
+   "id": 430,
+   "src": 12,
+   "name": "Economics - Production & Costs 02",
+   "units": 1,
+   "order": 98,
+   "weak": 0
+  },
+  {
+   "id": 431,
+   "src": 12,
+   "name": "Biology - Cell 01",
+   "units": 1,
+   "order": 99,
+   "weak": 0
+  },
+  {
+   "id": 432,
+   "src": 12,
+   "name": "Biology - Cell 02",
+   "units": 1,
+   "order": 100,
+   "weak": 0
+  },
+  {
+   "id": 433,
+   "src": 12,
+   "name": "Biology - Plant Tissue",
+   "units": 1,
+   "order": 101,
+   "weak": 0
+  },
+  {
+   "id": 434,
+   "src": 12,
+   "name": "Biology - Animal Tissue",
+   "units": 1,
+   "order": 102,
+   "weak": 0
+  },
+  {
+   "id": 435,
+   "src": 12,
+   "name": "Biology - Plant Kingdom",
+   "units": 1,
+   "order": 103,
+   "weak": 0
+  },
+  {
+   "id": 436,
+   "src": 12,
+   "name": "Biology - Animal Kingdom",
+   "units": 1,
+   "order": 104,
+   "weak": 0
+  },
+  {
+   "id": 437,
+   "src": 12,
+   "name": "Biology - Nervous System",
+   "units": 1,
+   "order": 105,
+   "weak": 0
+  },
+  {
+   "id": 438,
+   "src": 12,
+   "name": "Biology - Hormones and Movement in Plants",
+   "units": 1,
+   "order": 106,
+   "weak": 0
+  },
+  {
+   "id": 439,
+   "src": 12,
+   "name": "Biology - Reproduction",
+   "units": 1,
+   "order": 107,
+   "weak": 0
+  },
+  {
+   "id": 440,
+   "src": 12,
+   "name": "Biology - Digestive & Respiratory System",
+   "units": 1,
+   "order": 108,
+   "weak": 0
+  },
+  {
+   "id": 441,
+   "src": 12,
+   "name": "Biology - Circulatory and Excretory System",
+   "units": 1,
+   "order": 109,
+   "weak": 0
+  },
+  {
+   "id": 442,
+   "src": 12,
+   "name": "Biology - Nutrition",
+   "units": 1,
+   "order": 110,
+   "weak": 0
+  },
+  {
+   "id": 443,
+   "src": 12,
+   "name": "Biology - Diseases",
+   "units": 1,
+   "order": 111,
+   "weak": 0
+  },
+  {
+   "id": 444,
+   "src": 12,
+   "name": "Biology - Heredity and Bone Joints",
+   "units": 1,
+   "order": 112,
+   "weak": 0
+  },
+  {
+   "id": 445,
+   "src": 12,
+   "name": "Biology - Genetics & Skeletal System",
+   "units": 1,
+   "order": 113,
+   "weak": 0
+  },
+  {
+   "id": 446,
+   "src": 12,
+   "name": "Physics - Motion",
+   "units": 1,
+   "order": 114,
+   "weak": 0
+  },
+  {
+   "id": 447,
+   "src": 12,
+   "name": "Physics - Force and Laws of Motion",
+   "units": 1,
+   "order": 115,
+   "weak": 0
+  },
+  {
+   "id": 448,
+   "src": 12,
+   "name": "Physics - Human Eye and Vision",
+   "units": 1,
+   "order": 116,
+   "weak": 0
+  },
+  {
+   "id": 449,
+   "src": 12,
+   "name": "Physics - Gravitation & Work Done",
+   "units": 1,
+   "order": 117,
+   "weak": 0
+  },
+  {
+   "id": 450,
+   "src": 12,
+   "name": "Physics - Sound",
+   "units": 1,
+   "order": 118,
+   "weak": 0
+  },
+  {
+   "id": 451,
+   "src": 12,
+   "name": "Physics - Reflection and Refraction",
+   "units": 1,
+   "order": 119,
+   "weak": 0
+  },
+  {
+   "id": 452,
+   "src": 12,
+   "name": "Physics - Electricity",
+   "units": 1,
+   "order": 120,
+   "weak": 0
+  },
+  {
+   "id": 453,
+   "src": 12,
+   "name": "Physics - Magnetic Effects of Electric Current",
+   "units": 1,
+   "order": 121,
+   "weak": 0
+  },
+  {
+   "id": 454,
+   "src": 12,
+   "name": "Chemistry - Matter",
+   "units": 1,
+   "order": 122,
+   "weak": 0
+  },
+  {
+   "id": 455,
+   "src": 12,
+   "name": "Chemistry - Atom & Its Structure",
+   "units": 1,
+   "order": 123,
+   "weak": 0
+  },
+  {
+   "id": 456,
+   "src": 12,
+   "name": "Chemistry - Periodic Table",
+   "units": 1,
+   "order": 124,
+   "weak": 0
+  },
+  {
+   "id": 457,
+   "src": 12,
+   "name": "Chemistry - Chemical Reaction",
+   "units": 1,
+   "order": 125,
+   "weak": 0
+  },
+  {
+   "id": 458,
+   "src": 12,
+   "name": "Chemistry - Metals & Non-Metals",
+   "units": 1,
+   "order": 126,
+   "weak": 0
+  },
+  {
+   "id": 459,
+   "src": 12,
+   "name": "Chemistry - Acid, Base & Salt",
+   "units": 1,
+   "order": 127,
+   "weak": 0
+  },
+  {
+   "id": 460,
+   "src": 12,
+   "name": "Chemistry - Carbon & Its Compounds",
+   "units": 1,
+   "order": 128,
+   "weak": 0
+  },
+  {
+   "id": 461,
+   "src": 12,
+   "name": "Environment - Ecology & Environment 01",
+   "units": 1,
+   "order": 129,
+   "weak": 0
+  },
+  {
+   "id": 462,
+   "src": 12,
+   "name": "Environment - Ecology & Environment 02",
+   "units": 1,
+   "order": 130,
+   "weak": 0
+  },
+  {
+   "id": 463,
+   "src": 12,
+   "name": "Environment - Ecology & Environment 03",
+   "units": 1,
+   "order": 131,
    "weak": 0
   }
  ]
