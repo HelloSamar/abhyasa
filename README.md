@@ -26,15 +26,32 @@ Commit `data.js` with `index.html`: GitHub Pages needs both.
 
 ## Daily page
 
-`index.html` is a checklist of what to study next. It reads `data.js` (keep the two files together).
+`index.html` is a plain checklist of what to study next. It reads `data.js` (keep the two files together).
 
-- Each source is a glass panel listing its next two chapters in order (weak topics first). Sources with nothing left are hidden.
-- Tap the circle to complete a chapter. It moves to the "Completed" line at the bottom and the next chapter appears. Tap the circle again to undo.
+- Subject buttons at the top (All, English, Maths, GS, Computer, Reasoning) show one subject at a time, so you can focus on it.
+- Each source lists its next two chapters in order (weak topics first). Sources with nothing left are hidden.
+- Tap the circle to complete a chapter. It moves to "Completed" at the bottom and the next chapter appears. Tap again to undo.
 - Tap a chapter's name to open −, +1 and +5 for partial progress.
-- Each source label shows the percentage of the whole source you have finished.
+- The percentage next to each source is how much of the whole source you have finished.
 - Behind the scenes, the daily amount for a source = units left at the start of today ÷ days left to study (today counts), rounded up. Study ends `revision_days` before the exam date. This only decides which sources are due today.
-- Backup (collapsed at the bottom): "Show backup" prints your progress as text. Copy it into Notes now and then. "Restore" replaces what is saved in this browser; anything that no longer matches the plan is ignored.
-- Phone: repo **Settings → Pages**, deploy from `main`, open the link in Safari.
+
+## Sync between phone and computer
+
+Progress is kept on each device, and can be synced through one private GitHub gist (a single small JSON file, no server).
+
+1. Create a **classic** token at github.com/settings/tokens with only the **gist** scope.
+2. On each device open the page, **Settings → Sync**, paste the token, tap **Connect**. The first device creates the gist; the others find it by itself.
+3. After that, changes upload a couple of seconds after you tap, and the page checks for changes whenever you come back to it.
+
+Notes: a "secret" gist is not private to anyone who has its link, but it only holds chapter counts. The token is stored on the device. Disconnect removes it. If you change something on two devices before either syncs, the larger count wins for each chapter.
+
+## Backup and restore
+
+Settings → Backup: "Show backup" prints your progress as text. Copy it into Notes now and then. "Restore" replaces what is saved on this device; anything that no longer matches the plan is ignored.
+
+## Phone
+
+Repo **Settings → Pages**, deploy from `main`, open the link in Safari, then **Share → Add to Home Screen**.
 
 ## Edit the plan
 

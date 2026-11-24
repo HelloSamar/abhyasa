@@ -5,69 +5,63 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Abhyasa</title>
 <style>
-:root{--base:#eef3fb;--ink:#14202e;--mut:#4a5668;--acc:#1f7aff;--on-acc:#fff;--sc:var(--acc);--c1:#1d4ed8;--c2:#6d28d9;--c3:#9a3412;--c4:#115e59;--c5:#9d174d;--g:.45;--glass:rgba(255,255,255,calc(.12 + var(--g)*.6));--spec:rgba(255,255,255,.85);--edge:rgba(255,255,255,.8);--hair:rgba(20,32,46,.08);--btn:rgba(255,255,255,.65);--field:rgba(255,255,255,.6);--shadow:0 8px 30px rgba(31,70,130,.12);color-scheme:light dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media(prefers-color-scheme:dark){:root{--base:#0b1220;--ink:#eef3fa;--mut:#cfd8e5;--acc:#6aa9ff;--on-acc:#0b1220;--c1:#a6ccff;--c2:#cdbcff;--c3:#ffc99a;--c4:#86ead9;--c5:#ffb0cc;--glass:rgba(8,14,26,calc(.1 + var(--g)*.5));--spec:rgba(255,255,255,.22);--edge:rgba(255,255,255,.18);--hair:rgba(255,255,255,.09);--btn:rgba(255,255,255,.12);--field:rgba(0,0,0,.28);--shadow:0 8px 30px rgba(0,0,0,.4)}}
+:root{--bg:#fff;--ink:#1c1c1e;--mut:#6b7280;--line:#ececf0;--btn:#f2f2f5;--acc:#1d4ed8;--on-acc:#fff;--sc:var(--acc);--c1:#1d4ed8;--c2:#6d28d9;--c3:#9a3412;--c4:#115e59;--c5:#9d174d;color-scheme:light dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root{--bg:#0f0f10;--ink:#f2f2f3;--mut:#a0a0aa;--line:#26262a;--btn:#1d1d20;--acc:#8ab8ff;--on-acc:#0b1220;--c1:#a6ccff;--c2:#cdbcff;--c3:#ffc99a;--c4:#86ead9;--c5:#ffb0cc}}
 *{box-sizing:border-box}
-html{background:var(--base)}
 html,body{margin:0}
-body{background:transparent;color:var(--ink);font:16px/1.4 -apple-system,system-ui,"Segoe UI",sans-serif;padding:28px 18px 48px;max-width:520px;margin:0 auto}
-body::before{content:"";position:fixed;inset:0;z-index:-1;background:radial-gradient(60% 40% at 12% 8%,#bfe3ff,transparent 70%),radial-gradient(55% 40% at 92% 28%,#d9c8ff,transparent 70%),radial-gradient(60% 45% at 28% 96%,#b8f0df,transparent 70%),var(--base)}
-@media(prefers-color-scheme:dark){body::before{background:radial-gradient(60% 40% at 12% 8%,#163a6b,transparent 70%),radial-gradient(55% 40% at 92% 28%,#36266b,transparent 70%),radial-gradient(60% 45% at 28% 96%,#0c5246,transparent 70%),var(--base)}}
-h1{font-size:34px;font-weight:700;letter-spacing:-.02em;margin:0}
+body{background:var(--bg);color:var(--ink);font:17px/1.4 -apple-system,system-ui,"Segoe UI",sans-serif;padding:28px 20px 56px;max-width:560px;margin:0 auto}
+h1{font-size:32px;font-weight:700;letter-spacing:-.02em;margin:0}
 .mut{color:var(--mut);font-size:13px}
-.hero{margin:4px 0 22px}
-.grp,.cmp,.bk{background:var(--glass);border:1px solid var(--edge);border-radius:26px;box-shadow:inset 0 1px 0 var(--spec),var(--shadow);-webkit-backdrop-filter:blur(calc(14px + var(--g)*14px)) saturate(1.6);backdrop-filter:blur(calc(14px + var(--g)*14px)) saturate(1.6)}
-@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.grp,.cmp,.bk{background:var(--base)}}
-.grp{margin:0 0 14px;padding:12px 16px 2px}
-.gh{display:flex;justify-content:space-between;gap:8px;font-size:12px;font-weight:600;color:var(--mut);padding-bottom:2px}
-button{font:inherit;color:var(--ink);border:1px solid var(--edge);background:var(--btn);border-radius:999px;min-height:34px;min-width:40px;padding:0 12px}
+.hero{margin:4px 0 16px}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:2px 0 18px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+button{font:inherit;color:var(--ink);border:0;background:var(--btn);border-radius:10px;min-height:36px;min-width:40px;padding:0 12px}
 button:active{opacity:.6}
-button:focus-visible,summary:focus-visible,textarea:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
-.task{display:flex;align-items:center;flex-wrap:wrap;border-bottom:1px solid var(--hair)}
-.task:last-child{border-bottom:0}
-.chk{width:44px;min-width:44px;height:52px;background:none;border:0;padding:0;display:grid;place-items:center;border-radius:0;justify-items:start}
-.c{color:var(--on-acc);width:22px;height:22px;border-radius:50%;border:1.5px solid var(--sc);display:grid;place-items:center;transition:background .2s,border-color .2s}
-.c svg{opacity:0;transform:scale(.4);transition:opacity .2s,transform .2s}
-.fin .c{background:var(--sc);border-color:var(--sc)}
-.fin .c svg{opacity:1;transform:scale(1)}
-.pop .c{animation:pop .3s}
-@keyframes pop{50%{transform:scale(1.3)}}
-.in{animation:slide .28s ease-out}
-@keyframes slide{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
-.body{flex:1;min-width:0;text-align:left;background:none;border:0;border-radius:0;padding:10px 0;min-height:52px}
-.tn{font-size:17px;overflow-wrap:anywhere}
-.ts{font-size:12px;color:var(--mut)}
-.fin .tn{text-decoration:line-through;color:var(--mut)}
-.stp{width:100%;display:flex;gap:8px;padding:0 0 12px 44px}
-.cmp{margin-top:14px;padding:4px 16px}
-.cmp>summary{font-size:13px;color:var(--mut);padding:10px 0;min-height:44px}
-.empty{text-align:center;padding:40px 0;color:var(--mut)}
-details.bk{margin-top:28px;padding:6px 16px;color:var(--mut)}
-details.bk>summary{font-size:13px;padding:10px 0;min-height:44px}
-textarea{width:100%;height:90px;font:12px monospace;background:var(--field);color:var(--ink);border:1px solid var(--edge);border-radius:16px;padding:10px;margin:8px 0}
-.ctl{display:flex;gap:8px;padding-bottom:10px}
+button:focus-visible,summary:focus-visible,textarea:focus-visible,input:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.chip{border-radius:999px;font-size:14px;min-height:38px;white-space:nowrap;border:2px solid transparent}
+.chip.on{background:transparent;border-color:var(--sc,var(--ink));font-weight:600}
+.chip[class*=" s"]::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--sc);margin-right:6px}
 .s1{--sc:var(--c1)}.s2{--sc:var(--c2)}.s3{--sc:var(--c3)}.s4{--sc:var(--c4)}.s5{--sc:var(--c5)}
+.grp{margin:0 0 28px}
+.gh{display:flex;justify-content:space-between;gap:8px;font-size:13px;font-weight:600;color:var(--mut);padding-bottom:4px;border-bottom:1px solid var(--line)}
 .gh span:first-child::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--sc);margin-right:7px}
-.gh span:last-child{color:var(--sc)}
-@supports (background:color-mix(in srgb,red 10%,transparent)){.grp{background:linear-gradient(180deg,color-mix(in srgb,var(--sc) 14%,transparent),transparent 65%),var(--glass)}}
-.look{margin-top:24px;padding:12px 16px}
-.look label{font-weight:600;font-size:15px}
-.look input{width:100%;accent-color:var(--acc);margin:10px 0 2px}
-.lr{display:flex;justify-content:space-between}
-.look+details.bk{margin-top:14px}
-@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.task{display:flex;align-items:center;flex-wrap:wrap;border-bottom:1px solid var(--line)}
+.chk{width:46px;min-width:46px;height:56px;background:none;padding:0;display:grid;place-items:center;border-radius:0;justify-items:start}
+.c{color:var(--on-acc);width:24px;height:24px;border-radius:50%;border:2px solid var(--sc);display:grid;place-items:center;transition:background .15s}
+.c svg{opacity:0;transition:opacity .15s}
+.fin .c{background:var(--sc)}
+.fin .c svg{opacity:1}
+.body{flex:1;min-width:0;text-align:left;background:none;border-radius:0;padding:10px 0;min-height:56px}
+.tn{font-size:18px;overflow-wrap:anywhere}
+.ts{font-size:13px;color:var(--mut)}
+.fin .tn{text-decoration:line-through;color:var(--mut)}
+.stp{width:100%;display:flex;gap:8px;padding:0 0 12px 46px}
+.empty{text-align:center;padding:48px 0;color:var(--mut)}
+details{margin-top:8px;color:var(--mut)}
+summary{font-size:14px;min-height:44px;padding:10px 0}
+.cmp .task{opacity:.9}
+.set .sec{margin:6px 0 18px}
+.set b{color:var(--ink);font-size:15px}
+input[type=password],textarea{width:100%;font:14px monospace;background:var(--btn);color:var(--ink);border:0;border-radius:10px;padding:10px;margin:8px 0}
+textarea{height:80px;font-size:12px}
+.ctl{display:flex;gap:8px;flex-wrap:wrap}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
 <body>
 <h1>Today</h1>
-<div class="hero" id="hero"></div>
+<div class="hero mut" id="hero"></div>
+<div class="chips" id="chips"></div>
 <div id="app"></div>
-<div class="bk look"><label for="glass">Glass</label><input id="glass" type="range" min="0" max="100"><div class="mut lr"><span>Clear</span><span>Tinted</span></div></div>
-<details class="bk">
-<summary>Backup</summary>
-<p class="mut">Progress lives only in this browser. Copy the backup text into Notes now and then.</p>
+<details class="set"><summary>Settings: sync and backup</summary>
+<div class="sec"><b>Sync between devices</b>
+<p class="mut" id="syncmsg">Not connected. Progress is saved on this device only.</p>
+<div id="syncform"><input id="tok" type="password" autocomplete="off" placeholder="GitHub token (gist scope only)" aria-label="GitHub token"><div class="ctl"><button type="button" id="con">Connect</button></div>
+<p class="mut">Create a classic token at github.com/settings/tokens with only the “gist” scope, then paste it here on every device.</p></div>
+<div id="syncon" class="ctl" hidden><button type="button" id="now">Sync now</button><button type="button" id="dis">Disconnect</button></div></div>
+<div class="sec"><b>Backup</b>
 <textarea id="bk" aria-label="Backup text" placeholder="Backup text appears here"></textarea>
-<div class="ctl"><button type="button" id="exp">Show backup</button><button type="button" id="imp">Restore</button><button type="button" id="clr">Clear today</button></div>
+<div class="ctl"><button type="button" id="exp">Show backup</button><button type="button" id="imp">Restore</button><button type="button" id="clr">Clear today</button></div></div>
 </details>
 <script src="data.js"></script>
 <script>
@@ -80,17 +74,17 @@ const byOrder = (a,b) => b.weak - a.weak || a.order - b.order || a.id - b.id;   
 const topicsOf = s => DATA.topics.filter(t => t.src === s.id).sort(byOrder);
 const topicById = Object.create(null); DATA.topics.forEach(t => topicById[t.id] = t);
 
-// Saved state: {v:5, log:{"YYYY-MM-DD":{topicId:unitsDone}}}
+// Saved state: {v:5, log:{"YYYY-MM-DD":{topicId:unitsDone}}, ts:lastChange}
 function clean(o){            // keep what still matches the plan; drop unknown topics, clamp to chapter size
   if (!o || o.v !== 5 || !o.log || typeof o.log !== "object" || Array.isArray(o.log)) return null;
-  const out = {v:5, log:{}};
+  const out = {v:5, log:{}, ts: Number.isFinite(o.ts) ? o.ts : 0};
   Object.keys(o.log).forEach(d => { const x = o.log[d];
     if (!/^\d{4}-\d\d-\d\d$/.test(d) || !x || typeof x !== "object" || Array.isArray(x)) return;
     Object.keys(x).forEach(id => { const t = topicById[id];
       if (t && Number.isInteger(x[id]) && x[id] > 0) (out.log[d] || (out.log[d] = {}))[id] = Math.min(x[id], t.units); }); });
   return out;
 }
-let st = {v:5, log:{}};
+let st = {v:5, log:{}, ts:0};
 try { const c = clean(JSON.parse(localStorage.getItem(KEY))); if (c) st = c; } catch(e) {}
 const save = () => { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch(e) {} };
 
@@ -98,7 +92,6 @@ const pad = n => String(n).padStart(2,"0");
 const iso = d => d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate());
 const day = s => new Date(s+"T00:00:00");
 const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-const fmt = d => d.toLocaleDateString(undefined, {day:"numeric", month:"short", year:"numeric"});
 const exam = day(DATA.exam.date);
 const studyEnd = new Date(exam); studyEnd.setDate(exam.getDate() - DATA.exam.revisionDays);
 let today = iso(new Date());
@@ -106,28 +99,29 @@ const tick = () => { today = iso(new Date()); };
 const tdy = t => (st.log[today] || {})[t.id] || 0;
 const before = t => Object.keys(st.log).reduce((a,d) => d === today ? a : a + (st.log[d][t.id] || 0), 0);
 
-let prevIds = null, popId = null, cmpOpen = false; const expanded = {};
+let view = "all"; try { view = localStorage.getItem("abhyasa-view") || "all"; } catch(e) {}
+let prevIds = null, popId = null; const expanded = {};
 const CHECK = '<svg viewBox="0 0 24 24" width="16" height="16"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
 function render(){
   tick();
+  if (view !== "all" && !DATA.subjects.some(s => String(s.id) === view)) view = "all";
   const left = Math.round((day(iso(studyEnd)) - day(today)) / 864e5) + 1;   // today counts
   const toExam = Math.round((exam - day(today)) / 864e5);
   const items = [];
   DATA.sources.forEach(s => {
+    if (view !== "all" && String(s.sub) !== view) return;
     const ts = topicsOf(s);
     const rem = Math.max(0, ts.reduce((a,t) => a + t.units - before(t), 0));   // left at the start of today
     const target = left < 1 ? rem : Math.ceil(rem / left);
-    const done = ts.reduce((a,t) => a + tdy(t), 0);
-    if (target > 0) items.push({s, ts, target, done});
+    if (target > 0) items.push({s, ts});
   });
   items.sort((a,z) => a.s.sub - z.s.sub || a.s.id - z.s.id);
 
   let html = "", fin = "", nFin = 0, nOpen = 0; const ids = new Set();
   const row = (t, s, isDone, d) => {
     ids.add(t.id);
-    const cls = 'task s'+s.sub+(isDone ? ' fin' : '')+(t.id === popId ? ' pop' : '')+(prevIds && !prevIds.has(t.id) ? ' in' : '');
-    return '<div class="'+cls+'"><button type="button" class="chk" data-a="chk" data-t="'+t.id+'" aria-label="'+(isDone ? 'Mark not done: ' : 'Mark done: ')+esc(t.name)+'"><span class="c">'+CHECK+'</span></button>'
+    return '<div class="task s'+s.sub+(isDone ? ' fin' : '')+'"><button type="button" class="chk" data-a="chk" data-t="'+t.id+'" aria-label="'+(isDone ? 'Mark not done: ' : 'Mark done: ')+esc(t.name)+'"><span class="c">'+CHECK+'</span></button>'
       +'<button type="button" class="body" data-a="exp" data-t="'+t.id+'" aria-expanded="'+!!expanded[t.id]+'"><div class="tn">'+esc(t.name)+(t.weak ? ' · weak' : '')+'</div>'
       +'<div class="ts">'+(isDone ? esc(s.name)+' · completed' : d+' / '+t.units+' '+s.unit+'s')+'</div></button>'
       +(!isDone && expanded[t.id] ? '<div class="stp"><button type="button" data-a="step" data-t="'+t.id+'" data-v="-1" aria-label="Remove one">−</button>'
@@ -135,7 +129,7 @@ function render(){
         +(t.units > 5 ? '<button type="button" data-a="step" data-t="'+t.id+'" data-v="5" aria-label="Add five">+5</button>' : '')+'</div>' : '')
       +'</div>';
   };
-  items.forEach(({s, ts, target, done}) => {
+  items.forEach(({s, ts}) => {
     const all = ts.reduce((a,t) => a + t.units, 0), got = ts.reduce((a,t) => a + before(t) + tdy(t), 0);   // whole source
     let open = 0, rows = "";
     ts.forEach(t => {            // next two unfinished chapters; chapters finished today go to "Completed"
@@ -148,48 +142,102 @@ function render(){
   });
   if (!items.length) html = '<div class="empty">Nothing due today.</div>';
   else if (!nOpen) html = '<div class="empty">All done for today.</div>';
-  if (nFin) html += '<details class="cmp"'+(cmpOpen ? ' open' : '')+'><summary>Completed · '+nFin+'</summary>'+fin+'</details>';
+  if (nFin) html += '<details class="cmp"><summary>Completed · '+nFin+'</summary>'+fin+'</details>';
   document.getElementById("app").innerHTML = html;
-  document.getElementById("hero").innerHTML =
-    '<div class="mut">'+esc(DATA.exam.name)+' · '+toExam+' days left</div>';
+  document.getElementById("hero").textContent = DATA.exam.name+" · "+toExam+" days left";
+  document.getElementById("chips").innerHTML = '<button type="button" class="chip'+(view === "all" ? ' on' : '')+'" data-a="view" data-v="all">All</button>'
+    + DATA.subjects.map(sj => '<button type="button" class="chip s'+sj.id+(String(sj.id) === view ? ' on' : '')+'" data-a="view" data-v="'+sj.id+'">'+esc(sj.name)+'</button>').join("");
   prevIds = ids; popId = null;
 }
 
-document.getElementById("app").addEventListener("toggle", e => { if (e.target.classList && e.target.classList.contains("cmp")) cmpOpen = e.target.open; }, true);
-document.getElementById("app").addEventListener("click", e => {
+// ---------- sync through a private GitHub gist (one JSON file) ----------
+const SK = "abhyasa-sync", DK = "abhyasa-dirty", FILE = "abhyasa.json", DESC = "abhyasa-progress";
+let sync = {}; try { sync = JSON.parse(localStorage.getItem(SK)) || {}; } catch(e) {}
+let dirty = false; try { dirty = localStorage.getItem(DK) === "1"; } catch(e) {}
+let rev = 0, busy = false, tm = null;
+const $ = id => document.getElementById(id);
+const setDirty = v => { dirty = v; try { localStorage.setItem(DK, v ? "1" : "0"); } catch(e) {} };
+const saveSync = () => { try { localStorage.setItem(SK, JSON.stringify(sync)); } catch(e) {} };
+const msg = t => { $("syncmsg").textContent = t; };
+const ui = () => { $("syncform").hidden = !!sync.token; $("syncon").hidden = !sync.token; };
+const schedule = () => { clearTimeout(tm); tm = setTimeout(doSync, 2000); };
+function touch(){ st.ts = Date.now(); rev++; setDirty(true); save(); if (sync.token) schedule(); }
+function merge(a, b){          // only used if two devices changed things before syncing: keep the larger count
+  const out = {v:5, log:{}, ts: Math.max(a.ts || 0, b.ts || 0)};
+  [a, b].forEach(s => Object.keys(s.log).forEach(d => Object.keys(s.log[d]).forEach(id => {
+    const o = out.log[d] || (out.log[d] = {}); o[id] = Math.max(o[id] || 0, s.log[d][id]); })));
+  return out;
+}
+async function gh(path, opt){
+  const r = await fetch("https://api.github.com"+path, Object.assign({}, opt, {headers:{Authorization:"Bearer "+sync.token, Accept:"application/vnd.github+json"}}));
+  if (!r.ok) throw new Error(r.status === 401 ? "token rejected" : "GitHub error "+r.status);
+  return r.json();
+}
+async function doSync(){
+  if (!sync.token || busy) return;
+  busy = true; msg("Syncing…");
+  try {
+    if (!sync.gist) {
+      const list = await gh("/gists?per_page=100"), f = list.find(x => x.description === DESC && x.files && x.files[FILE]);
+      if (f) sync.gist = f.id;
+      else sync.gist = (await gh("/gists", {method:"POST", body:JSON.stringify({description:DESC, public:false, files:{[FILE]:{content:JSON.stringify(st)}}})})).id;
+      saveSync();
+    }
+    const r0 = rev, g = await gh("/gists/"+sync.gist), file = g.files && g.files[FILE];
+    let remote = null;
+    try { remote = clean(JSON.parse(file.truncated ? await (await fetch(file.raw_url)).text() : file.content)); } catch(e) {}
+    remote = remote || {v:5, log:{}, ts:0};
+    const otherChanged = remote.ts !== (sync.last || 0);        // another device wrote since we last synced
+    const next = dirty ? (otherChanged ? merge(st, remote) : st) : (remote.ts > (st.ts || 0) ? remote : st);
+    const changed = JSON.stringify(next) !== JSON.stringify(st);
+    st = next; save();
+    if (JSON.stringify(remote) !== JSON.stringify(st))
+      await gh("/gists/"+sync.gist, {method:"PATCH", body:JSON.stringify({files:{[FILE]:{content:JSON.stringify(st)}}})});
+    sync.last = st.ts; saveSync();
+    if (rev === r0) setDirty(false); else schedule();
+    if (changed) render();
+    msg("Synced "+new Date().toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"}));
+  } catch(e) { msg("Sync failed: "+e.message+". Tap Sync now to retry."); }
+  finally { busy = false; }
+}
+
+// ---------- taps ----------
+function onTap(e){
   const b = e.target.closest("[data-a]"); if (!b) return;
+  const a = b.dataset.a;
+  if (a === "view") { view = b.dataset.v; try { localStorage.setItem("abhyasa-view", view); } catch(e) {} render(); return; }
   tick();
   const t = topicById[b.dataset.t]; if (!t) return;
-  const a = b.dataset.a;
   if (a === "exp") { expanded[t.id] = !expanded[t.id]; render(); return; }
   const L = st.log[today] || (st.log[today] = {});
   const room = t.units - before(t);
   if (a === "chk") {
     const fin = before(t) + (L[t.id] || 0) >= t.units;
     L[t.id] = fin ? 0 : room;
-    if (!fin) { popId = t.id; if (typeof navigator !== "undefined" && navigator.vibrate) navigator.vibrate(12); }
+    if (!fin && typeof navigator !== "undefined" && navigator.vibrate) navigator.vibrate(12);
   } else L[t.id] = Math.max(0, Math.min(room, (L[t.id] || 0) + +b.dataset.v));
-  save(); render();
-});
+  touch(); render();
+}
+$("app").addEventListener("click", onTap);
+$("chips").addEventListener("click", onTap);
 
-const bk = document.getElementById("bk");
-document.getElementById("exp").onclick = () => { bk.value = JSON.stringify(st); bk.focus(); bk.select(); };
-document.getElementById("imp").onclick = () => {
+$("con").onclick = () => { const v = $("tok").value.trim(); if (!v) return; sync = {token:v}; saveSync(); $("tok").value = ""; setDirty(true); ui(); doSync(); };
+$("dis").onclick = () => { sync = {}; saveSync(); ui(); msg("Not connected. Progress is saved on this device only."); };
+$("now").onclick = () => doSync();
+const bk = $("bk");
+$("exp").onclick = () => { bk.value = JSON.stringify(st); bk.focus(); bk.select(); };
+$("imp").onclick = () => {
   let o; try { o = JSON.parse(bk.value); } catch(e) {}
   o = clean(o);
   if (!o) { bk.value = "That text is not a valid backup for this plan."; return; }
   if (!confirm("Replace all progress saved in this browser?")) return;
-  st = o; save(); render(); bk.value = "Restored.";
+  st = o; touch(); render(); bk.value = "Restored.";
 };
-document.getElementById("clr").onclick = () => { if (confirm("Clear everything logged today?")) { delete st.log[today]; save(); render(); } };
-// glass slider: 0 = clearest, 100 = most tinted (remembered on this device)
-let g = .45; try { const v = parseFloat(localStorage.getItem("abhyasa-glass")); if (v >= 0 && v <= 1) g = v; } catch(e) {}
-const gl = document.getElementById("glass"), setG = () => document.documentElement.style.setProperty("--g", g);
-gl.value = Math.round(g * 100); setG();
-gl.addEventListener("input", () => { g = gl.value / 100; setG(); try { localStorage.setItem("abhyasa-glass", g); } catch(e) {} });
-document.addEventListener("visibilitychange", () => { if (!document.hidden) render(); });
-window.addEventListener("focus", render);
-render();
+$("clr").onclick = () => { if (confirm("Clear everything logged today?")) { delete st.log[today]; touch(); render(); } };
+const wake = () => { render(); doSync(); };
+document.addEventListener("visibilitychange", () => { if (!document.hidden) wake(); });
+window.addEventListener("focus", wake);
+ui(); if (sync.token) msg("Connected."); render(); doSync();
 </script>
 </body>
 </html>
