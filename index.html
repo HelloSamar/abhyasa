@@ -30,6 +30,7 @@ summary small{color:var(--mut);font-weight:400;display:block;font-size:12px}
 .ctl{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
 button{font:inherit;background:var(--btn);color:var(--ink);border:0;border-radius:10px;min-width:44px;height:44px;padding:0 12px}
 button:active{opacity:.6}
+button:focus-visible,summary:focus-visible,textarea:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
 .n{min-width:40px;text-align:center;font-weight:600}
 .lbl{font-size:12px;color:var(--mut);margin:0 6px 0 2px}
 .done{opacity:.55}
@@ -42,104 +43,96 @@ textarea{width:100%;height:90px;font:12px monospace;background:var(--card);color
 <div class="hero" id="hero"></div>
 <div id="app"></div>
 <div class="card">
-  <div class="sub">Backup</div>
-  <p class="mut">Progress lives only in this browser. Copy the backup text into Notes now and then.</p>
-  <textarea id="bk" placeholder="Backup text appears here"></textarea>
-  <div class="ctl"><button id="exp">Show backup</button><button id="imp">Restore from text</button><button id="clr">Clear today</button></div>
+<div class="sub">Backup</div>
+<p class="mut">Progress lives only in this browser. Copy the backup text into Notes now and then.</p>
+<textarea id="bk" aria-label="Backup text" placeholder="Backup text appears here"></textarea>
+<div class="ctl"><button type="button" id="exp">Show backup</button><button type="button" id="imp">Restore from text</button><button type="button" id="clr">Clear today</button></div>
 </div>
-
+<!-- DATA comes from data.js, generated from the database by export_data.py -->
+<script src="data.js"></script>
 <script>
-// ---- Edit your data here (same as seed.sql) ----
-const DATA = {
-  exam: {name:"SSC CGL Mains", date:"2027-01-15", revisionDays:5},
-  subjects: [{id:1,name:"English"},{id:2,name:"Maths"},{id:3,name:"GS"},{id:4,name:"Computer"},{id:5,name:"Reasoning"}],
-  sources: [ // mpu = minutes per page / video / mock (placeholders)
-    {id:1,sub:1,name:"Neetu Mam Volume Book",mpu:2},
-    {id:2,sub:1,name:"Blackbook English Vocabulary",mpu:2},
-    {id:3,sub:1,name:"Pinnacle English (8th ed.)",mpu:2},
-    {id:4,sub:2,name:"Pinnacle Maths (8th ed.)",mpu:5},
-    {id:5,sub:3,name:"Parmar Fatman",mpu:2},
-    {id:6,sub:3,name:"Pinnacle GS",mpu:2},
-    {id:7,sub:4,name:"Arihant Computer Awareness",mpu:2},
-    {id:8,sub:5,name:"Reasoning Mocks",mpu:90}
-  ],
-  topics: [ // one topic per book for now; split into chapters later. weak:1 = do first
-    {id:1,src:1,name:"Whole book",pages:478,videos:null,tests:null,mocks:0,order:1,weak:0},
-    {id:2,src:2,name:"Whole book",pages:572,videos:null,tests:null,mocks:0,order:1,weak:0},
-    {id:3,src:3,name:"Whole book",pages:657,videos:null,tests:null,mocks:0,order:1,weak:0},
-    {id:4,src:4,name:"Whole book",pages:672,videos:null,tests:null,mocks:0,order:1,weak:0},
-    {id:5,src:5,name:"Whole book",pages:509,videos:null,tests:null,mocks:0,order:1,weak:0},
-    {id:6,src:6,name:"Whole book",pages:556,videos:null,tests:null,mocks:0,order:1,weak:0},
-    {id:7,src:7,name:"Whole book",pages:191,videos:null,tests:null,mocks:0,order:1,weak:0},
-    {id:8,src:8,name:"Mock tests",pages:null,videos:null,tests:45,mocks:0,order:1,weak:0}
-  ]
-};
-// ------------------------------------------------
+const KEY = "abhyasa-v3";
+const topicById = Object.create(null);
+DATA.topics.forEach(t => topicById[t.id] = t);
 
-const KEY = "abhyasa-v2";
-let st = {log:{}, mocks:{}}, open = {};
-try { st = JSON.parse(localStorage.getItem(KEY)) || st; } catch(e) {}
+// A saved state is {v:3, log:{"YYYY-MM-DD":{topicId:units}}}. Reject anything else.
+function valid(o){
+  if (!o || o.v !== 3 || !o.log || typeof o.log !== "object" || Array.isArray(o.log)) return false;
+  return Object.keys(o.log).every(d => {
+    const day = o.log[d];
+    return /^\d{4}-\d\d-\d\d$/.test(d) && day && typeof day === "object" && !Array.isArray(day) &&
+      Object.keys(day).every(id => topicById[id] && Number.isInteger(day[id]) && day[id] >= 0 && day[id] <= topicById[id].units);
+  });
+}
+
+let st = {v:3, log:{}}, open = {};
+try { const s = JSON.parse(localStorage.getItem(KEY)); if (valid(s)) st = s; } catch(e) {}
 const save = () => { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch(e) {} };
 
 const pad = n => String(n).padStart(2,"0");
 const iso = d => d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate());
-const now = new Date(), today = iso(now);
 const day = s => new Date(s+"T00:00:00");
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const fmt = d => d.toLocaleDateString(undefined, {day:"numeric", month:"short", year:"numeric"});
+
 const exam = day(DATA.exam.date);
-const studyEnd = new Date(exam); studyEnd.setDate(exam.getDate()-DATA.exam.revisionDays);
-const left = Math.round((day(iso(studyEnd))-day(today))/864e5)+1;
-const toExam = Math.round((exam-day(today))/864e5);
+const studyEnd = new Date(exam); studyEnd.setDate(exam.getDate() - DATA.exam.revisionDays);
 
-const total = t => t.pages != null ? t.pages : t.videos != null ? t.videos : t.tests;
-const unit = t => t.pages != null ? "pages" : t.videos != null ? "videos" : "mocks";
-const logOf = d => st.log[d] || (st.log[d] = {});
-const tdy = t => logOf(today)[t.id] || 0;
-const before = t => Object.keys(st.log).reduce((s,d) => d===today ? s : s+(st.log[d][t.id]||0), 0);
-const sorted = ts => ts.slice().sort((a,b)=>a.order-b.order||a.id-b.id);
+let today = iso(new Date());                 // refreshed on every render and tap
+const tick = () => { today = iso(new Date()); };
+const tdy = t => (st.log[today] || {})[t.id] || 0;
+const before = t => Object.keys(st.log).reduce((s,d) => d === today ? s : s + (st.log[d][t.id] || 0), 0);
+const srcs = sj => DATA.sources.filter(s => s.sub === sj.id).sort((a,b) => a.id - b.id);
+const byOrder = (a,b) => a.order - b.order || a.id - b.id;
 
-// topic number within subject (like the SQL)
+// topic number within subject (same rule as query.sql)
 const num = {};
 DATA.subjects.forEach(sj => { let n = 0;
-  DATA.sources.filter(s=>s.sub===sj.id).forEach(s => sorted(DATA.topics.filter(t=>t.src===s.id)).forEach(t => num[t.id] = ++n)); });
+  srcs(sj).forEach(s => DATA.topics.filter(t => t.src === s.id).sort(byOrder).forEach(t => num[t.id] = ++n)); });
 
 function render(){
-  let html = "", allT = 0, allD = 0;
+  tick();
+  const left = Math.round((day(iso(studyEnd)) - day(today)) / 864e5) + 1;   // today counts
+  const toExam = Math.round((exam - day(today)) / 864e5);
+  let html = "", allT = 0, allD = 0; const pcts = [];
+
   DATA.subjects.forEach(sj => {
     let sT = 0, sD = 0, body = "";
-    DATA.sources.filter(s=>s.sub===sj.id).forEach(s => {
-      const ts = DATA.topics.filter(t=>t.src===s.id);
-      const rem = ts.reduce((a,t)=>a+total(t)-before(t),0);
-      const target = left < 1 ? rem : Math.ceil(rem/left);
-      const done = ts.reduce((a,t)=>a+tdy(t),0);
-      sT += Math.min(rem,target)*s.mpu; sD += done*s.mpu;
-      body += '<details data-s="'+s.id+'"'+(open[s.id]?' open':'')+'><summary>'+s.name
-        +'<small>target '+Math.min(rem,target)+' · done '+done+' · '+rem+' left in source</small></summary>';
-      ts.sort((a,b)=>b.weak-a.weak||a.order-b.order||a.id-b.id).forEach(t => {
-        const d = before(t)+tdy(t), fin = d >= total(t), m = st.mocks[t.id]||0;
-        body += '<div class="topic'+(fin?' done':'')+'"><div class="tname"><span>#'+num[t.id]+'</span>'+t.name
-          +(t.weak?'<span class="weak">WEAK</span>':'')+'</div>'
-          +'<div class="meta">'+d+' / '+total(t)+' '+unit(t)+'</div>'
-          +'<div class="ctl"><button data-a="u" data-t="'+t.id+'" data-v="-1">−</button><span class="n">'+tdy(t)+'</span>'
-          +'<button data-a="u" data-t="'+t.id+'" data-v="1">+1</button><button data-a="u" data-t="'+t.id+'" data-v="5">+5</button>'
-          +'<span class="lbl">today</span>'
-          +(t.mocks ? '<button data-a="m" data-t="'+t.id+'" data-v="-1">−</button><span class="n">'+m+'/'+t.mocks+'</span>'
-          +'<button data-a="m" data-t="'+t.id+'" data-v="1">+</button><span class="lbl">mocks</span>' : '')
-          +'</div></div>';
+    srcs(sj).forEach(s => {
+      const ts = DATA.topics.filter(t => t.src === s.id);
+      const rem = Math.max(0, ts.reduce((a,t) => a + t.units - before(t), 0));   // left at the start of today
+      const target = left < 1 ? rem : Math.ceil(rem / left);
+      const done = ts.reduce((a,t) => a + tdy(t), 0);
+      sT += target * s.mpu; sD += done * s.mpu;
+      body += '<details data-s="'+s.id+'"'+(open[s.id] ? ' open' : '')+'><summary>'+esc(s.name)
+        +'<small>target '+target+' · done '+done+' · '+Math.max(0, rem - done)+' '+s.unit+'s left</small></summary>';
+      ts.sort((a,b) => b.weak - a.weak || byOrder(a,b)).forEach(t => {
+        const d = before(t) + tdy(t);
+        body += '<div class="topic'+(d >= t.units ? ' done' : '')+'"><div class="tname"><span>#'+num[t.id]+'</span>'+esc(t.name)
+          +(t.weak ? '<span class="weak">WEAK</span>' : '')+'</div>'
+          +'<div class="meta">'+d+' / '+t.units+' '+s.unit+'s</div>'
+          +'<div class="ctl"><button type="button" aria-label="Remove one from today" data-t="'+t.id+'" data-v="-1">−</button>'
+          +'<span class="n">'+tdy(t)+'</span>'
+          +'<button type="button" aria-label="Add one to today" data-t="'+t.id+'" data-v="1">+1</button>'
+          +'<button type="button" aria-label="Add five to today" data-t="'+t.id+'" data-v="5">+5</button>'
+          +'<span class="lbl">today</span></div></div>';
       });
       body += '</details>';
     });
     allT += sT; allD += sD;
-    const pct = sT > 0 ? Math.min(100, Math.round(sD/sT*100)) : 100;
-    html += '<div class="card"><div class="row"><div class="sub">'+sj.name+'</div></div>'
+    const pct = sT > 0 ? Math.min(100, Math.round(sD / sT * 100)) : 100;
+    pcts.push(pct);
+    html += '<div class="card"><div class="row"><div class="sub">'+esc(sj.name)+'</div></div>'
       +'<div class="t">Today: <b>'+sT+' min</b> target · <b>'+sD+' min</b> done</div>'
       +'<div class="bar"><i style="width:'+pct+'%"></i></div>'+body+'</div>';
   });
-  const p = allT > 0 ? Math.min(100, Math.round(allD/allT*100)) : 100;
+
+  const p = pcts.length ? Math.round(pcts.reduce((a,b) => a + b, 0) / pcts.length) : 100;
   document.getElementById("app").innerHTML = html;
   document.getElementById("hero").innerHTML =
-    '<div class="mut">'+DATA.exam.name+' · '+toExam+' days to 15 Jan target</div>'
-    +'<div class="mut">Study ends '+iso(studyEnd)+' · then '+DATA.exam.revisionDays+' days revision &amp; mocks</div>'
-    +'<div class="mut" style="margin-top:8px">Today’s total</div>'
+    '<div class="mut">'+esc(DATA.exam.name)+' · '+toExam+' days to '+fmt(exam)+'</div>'
+    +'<div class="mut">'+(left < 1 ? 'Study period is over' : 'Study ends '+fmt(studyEnd))+' · then '+DATA.exam.revisionDays+' days revision &amp; mocks</div>'
+    +'<div class="mut" style="margin-top:8px">Today’s total (bar = average across subjects)</div>'
     +'<div class="big">'+allD+' / '+allT+' min</div><div class="bar"><i style="width:'+p+'%"></i></div>';
 }
 
@@ -147,18 +140,26 @@ const app = document.getElementById("app");
 app.addEventListener("toggle", e => { if (e.target.dataset.s) open[e.target.dataset.s] = e.target.open; }, true);
 app.addEventListener("click", e => {
   const b = e.target.closest("button"); if (!b) return;
-  const t = DATA.topics.find(x => x.id === +b.dataset.t), v = +b.dataset.v;
-  if (b.dataset.a === "u") logOf(today)[t.id] = Math.max(0, Math.min(total(t)-before(t), tdy(t)+v));
-  else st.mocks[t.id] = Math.max(0, Math.min(t.mocks, (st.mocks[t.id]||0)+v));
+  tick();
+  const t = topicById[b.dataset.t], v = +b.dataset.v; if (!t) return;
+  const L = st.log[today] || (st.log[today] = {});
+  L[t.id] = Math.max(0, Math.min(t.units - before(t), (L[t.id] || 0) + v));
   save(); render();
 });
+
 const bk = document.getElementById("bk");
 document.getElementById("exp").onclick = () => { bk.value = JSON.stringify(st); bk.focus(); bk.select(); };
 document.getElementById("imp").onclick = () => {
-  try { const o = JSON.parse(bk.value); if (!o.log || !o.mocks) throw 0; st = o; save(); render(); bk.value = "Restored."; }
-  catch(e) { bk.value = "That text is not a valid backup."; }
+  let o; try { o = JSON.parse(bk.value); } catch(e) {}
+  if (!valid(o)) { bk.value = "That text is not a valid backup for this plan."; return; }
+  if (!confirm("Replace all progress saved in this browser?")) return;
+  st = o; save(); render(); bk.value = "Restored.";
 };
-document.getElementById("clr").onclick = () => { if (confirm("Clear everything logged today?")) { st.log[today] = {}; save(); render(); } };
+document.getElementById("clr").onclick = () => { if (confirm("Clear everything logged today?")) { delete st.log[today]; save(); render(); } };
+
+// a tab left open overnight picks up the new day
+document.addEventListener("visibilitychange", () => { if (!document.hidden) render(); });
+window.addEventListener("focus", render);
 render();
 </script>
 </body>
