@@ -5,26 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Abhyasa</title>
 <style>
-:root{--bg:#f6f5f1;--card:#fff;--ink:#1d1d1b;--mut:#8a8984;--acc:#1d6b4f;--bar:#e4e2da;--line:#eeece6;--btn:#efede6;color-scheme:light dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media(prefers-color-scheme:dark){:root{--bg:#141413;--card:#1e1e1c;--ink:#f0eee8;--mut:#9b9a93;--acc:#5fcf9f;--bar:#33322e;--line:#2c2b28;--btn:#2b2a27}}
+:root{--bg:#fff;--ink:#1f2328;--mut:#9aa0a6;--acc:#4a7dff;--line:#f0f1f3;--btn:#f3f4f6;color-scheme:light dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root{--bg:#111214;--ink:#ececec;--mut:#7d8187;--acc:#6b95ff;--line:#202226;--btn:#1d1f23}}
 *{box-sizing:border-box}
 html,body{margin:0}
-body{background:var(--bg);color:var(--ink);font:16px/1.35 -apple-system,system-ui,"Segoe UI",sans-serif;padding:14px 12px 40px;max-width:520px;margin:0 auto}
-h1{font-size:24px;margin:2px 0 0}
+body{background:var(--bg);color:var(--ink);font:16px/1.4 -apple-system,system-ui,"Segoe UI",sans-serif;padding:28px 22px 48px;max-width:520px;margin:0 auto}
+h1{font-size:30px;font-weight:700;margin:0}
 .mut{color:var(--mut);font-size:13px}
-.hero{margin:4px 0 14px}
-.bar{height:4px;border-radius:2px;background:var(--bar);overflow:hidden;margin:6px 0}
-.bar i{display:block;height:100%;background:var(--acc);transition:width .3s}
-.grp{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 12px 2px;margin-bottom:10px}
-.gh{display:flex;justify-content:space-between;gap:8px;font-size:13px;font-weight:600;color:var(--mut)}
-.gh b{color:var(--acc);white-space:nowrap}
-button{font:inherit;color:var(--ink);border:0;background:var(--btn);border-radius:10px;min-height:36px;min-width:40px;padding:0 10px}
+.hero{margin:4px 0 28px}
+.grp{margin:0 0 26px}
+.gh{display:flex;justify-content:space-between;gap:8px;font-size:12px;font-weight:500;color:var(--mut);padding-bottom:4px}
+button{font:inherit;color:var(--ink);border:0;background:var(--btn);border-radius:8px;min-height:34px;min-width:40px;padding:0 12px}
 button:active{opacity:.6}
 button:focus-visible,summary:focus-visible,textarea:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
-.task{display:flex;align-items:center;flex-wrap:wrap;border-top:1px solid var(--line)}
-.task:first-of-type{border-top:0}
-.chk{width:48px;min-width:48px;height:48px;background:none;padding:0;display:grid;place-items:center}
-.c{width:26px;height:26px;border-radius:50%;border:2px solid var(--mut);display:grid;place-items:center;transition:background .2s,border-color .2s}
+.task{display:flex;align-items:center;flex-wrap:wrap;border-bottom:1px solid var(--line)}
+.chk{width:44px;min-width:44px;height:52px;background:none;padding:0;display:grid;place-items:center;border-radius:0;justify-items:start}
+.c{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--mut);display:grid;place-items:center;transition:background .2s,border-color .2s}
 .c svg{opacity:0;transform:scale(.4);transition:opacity .2s,transform .2s}
 .fin .c{background:var(--acc);border-color:var(--acc)}
 .fin .c svg{opacity:1;transform:scale(1)}
@@ -32,16 +28,16 @@ button:focus-visible,summary:focus-visible,textarea:focus-visible{outline:2px so
 @keyframes pop{50%{transform:scale(1.3)}}
 .in{animation:slide .28s ease-out}
 @keyframes slide{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
-.body{flex:1;min-width:0;text-align:left;background:none;border-radius:0;padding:8px 0;min-height:48px}
-.tn{font-weight:500;overflow-wrap:anywhere}
+.body{flex:1;min-width:0;text-align:left;background:none;border-radius:0;padding:10px 0;min-height:52px}
+.tn{font-size:17px;overflow-wrap:anywhere}
 .ts{font-size:12px;color:var(--mut)}
 .fin .tn{text-decoration:line-through;color:var(--mut)}
-.stp{width:100%;display:flex;gap:6px;padding:0 0 10px 48px}
-.empty{text-align:center;padding:28px 0;color:var(--mut)}
-details.bk{margin-top:24px}
-summary{font-weight:600;min-height:30px}
-textarea{width:100%;height:90px;font:12px monospace;background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:8px;margin:8px 0}
-.ctl{display:flex;gap:6px}
+.stp{width:100%;display:flex;gap:8px;padding:0 0 12px 44px}
+.empty{text-align:center;padding:40px 0;color:var(--mut)}
+details.bk{margin-top:36px;color:var(--mut)}
+summary{font-size:13px;min-height:30px}
+textarea{width:100%;height:90px;font:12px monospace;background:var(--btn);color:var(--ink);border:0;border-radius:8px;padding:10px;margin:8px 0}
+.ctl{display:flex;gap:8px}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -121,16 +117,14 @@ function render(){
           +(t.units > 5 ? '<button type="button" data-a="step" data-t="'+t.id+'" data-v="5" aria-label="Add five">+5</button>' : '')+'</div>' : '')
         +'</div>';
     });
-    const pct = Math.min(100, Math.round(done / target * 100));
-    html += '<div class="grp"><div class="gh"><span>'+esc(s.name)+'</span><b>'+done+' / '+target+' '+u+'</b></div>'
-      +'<div class="bar"><i style="width:'+pct+'%"></i></div>'+rows+'</div>';
+    html += '<div class="grp"><div class="gh"><span>'+esc(s.name)+'</span><span>'+done+' / '+target+' '+u+'</span></div>'
+      +rows+'</div>';
   });
   if (!items.length) html = '<div class="empty">Nothing due today.</div>';
-  const p = items.length ? Math.round(items.reduce((a,x) => a + Math.min(100, x.done / x.target * 100), 0) / items.length) : 100;
   document.getElementById("app").innerHTML = html;
   document.getElementById("hero").innerHTML =
-    '<div class="mut">'+esc(DATA.exam.name)+' · '+toExam+' days to '+fmt(exam)+' · '+(left < 1 ? 'revision &amp; mocks' : 'study ends '+fmt(studyEnd))+'</div>'
-    +'<div class="bar"><i style="width:'+p+'%"></i></div><div class="mut">'+tD+' of '+tT+' min today</div>';
+    '<div class="mut">'+esc(DATA.exam.name)+' · '+toExam+' days left</div>'
+    +'<div class="mut">'+tD+' of '+tT+' min today</div>';
   prevIds = ids; popId = null;
 }
 
