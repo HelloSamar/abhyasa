@@ -41,7 +41,8 @@ INSERT INTO topics (source_id, topic_name, units, topic_order) VALUES
   -- Pinnacle English (8th ed.): pages 1-657 (chapters 2-15 are added at the end of this file)
   (3,'Spot the Error',62,1),
   -- Maths, GS
-  (4,'Whole book',672,1),
+  -- Pinnacle Maths (8th ed.): pages 1-642 by chapter (chapters 2-28 are added at the end of this file)
+  (4,'Number system',25,1),
   (5,'Whole book',509,1),
   -- Pinnacle GS (8th ed.): 6658 questions, counted per chapter (chapters 2-174 are added at the end of this file)
   (6,'Static GK: Dance',151,1),
@@ -329,3 +330,35 @@ INSERT INTO topics (source_id, topic_name, units, topic_order) VALUES
   (11,'Phrasal Verb',4,4),
   (11,'Vocabulary',20,5),
   (11,'Spelling',3,6);
+
+-- Pinnacle Maths chapters 2-27, appended so existing topic ids stay the same.
+-- Your earlier seed said 672 pages; the last chapter ends on page 642, so the last row keeps the
+-- remaining 30 pages. Delete that row if pages 643-672 are not part of what you will study.
+INSERT INTO topics (source_id, topic_name, units, topic_order) VALUES
+  (4,'HCF and LCM',9,2),
+  (4,'Simplification',14,3),
+  (4,'Trigonometry',51,4),
+  (4,'Height and Distance',9,5),
+  (4,'Mensuration',68,6),
+  (4,'Geometry',68,7),
+  (4,'Algebra',52,8),
+  (4,'Ratio and Proportion',25,9),
+  (4,'Partnership',9,10),
+  (4,'Mixture and Alligation',10,11),
+  (4,'Work and Time',34,12),
+  (4,'Pipe and Cistern',12,13),
+  (4,'Time, Speed and Distance',36,14),
+  (4,'Linear and Circular Race',9,15),
+  (4,'Boat and Stream',10,16),
+  (4,'Percentage',39,17),
+  (4,'Profit and Loss',38,18),
+  (4,'Discount',23,19),
+  (4,'Simple Interest',18,20),
+  (4,'Compound Interest',18,21),
+  (4,'Instalment',6,22),
+  (4,'Average',31,23),
+  (4,'Data Interpretation',7,24),
+  (4,'Mean, Median & Mode',7,25),
+  (4,'Coordinate Geometry',8,26),
+  (4,'Probability',8,27),
+  (4,'Pages after Probability (643-672)',30,28);

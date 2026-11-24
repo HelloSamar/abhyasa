@@ -374,8 +374,8 @@ const DATA = {
   {
    "id": 34,
    "src": 4,
-   "name": "Whole book",
-   "units": 672,
+   "name": "Number system",
+   "units": 25,
    "order": 1,
    "weak": 0
   },
@@ -2545,6 +2545,222 @@ const DATA = {
    "name": "Spelling",
    "units": 3,
    "order": 6,
+   "weak": 0
+  },
+  {
+   "id": 306,
+   "src": 4,
+   "name": "HCF and LCM",
+   "units": 9,
+   "order": 2,
+   "weak": 0
+  },
+  {
+   "id": 307,
+   "src": 4,
+   "name": "Simplification",
+   "units": 14,
+   "order": 3,
+   "weak": 0
+  },
+  {
+   "id": 308,
+   "src": 4,
+   "name": "Trigonometry",
+   "units": 51,
+   "order": 4,
+   "weak": 0
+  },
+  {
+   "id": 309,
+   "src": 4,
+   "name": "Height and Distance",
+   "units": 9,
+   "order": 5,
+   "weak": 0
+  },
+  {
+   "id": 310,
+   "src": 4,
+   "name": "Mensuration",
+   "units": 68,
+   "order": 6,
+   "weak": 0
+  },
+  {
+   "id": 311,
+   "src": 4,
+   "name": "Geometry",
+   "units": 68,
+   "order": 7,
+   "weak": 0
+  },
+  {
+   "id": 312,
+   "src": 4,
+   "name": "Algebra",
+   "units": 52,
+   "order": 8,
+   "weak": 0
+  },
+  {
+   "id": 313,
+   "src": 4,
+   "name": "Ratio and Proportion",
+   "units": 25,
+   "order": 9,
+   "weak": 0
+  },
+  {
+   "id": 314,
+   "src": 4,
+   "name": "Partnership",
+   "units": 9,
+   "order": 10,
+   "weak": 0
+  },
+  {
+   "id": 315,
+   "src": 4,
+   "name": "Mixture and Alligation",
+   "units": 10,
+   "order": 11,
+   "weak": 0
+  },
+  {
+   "id": 316,
+   "src": 4,
+   "name": "Work and Time",
+   "units": 34,
+   "order": 12,
+   "weak": 0
+  },
+  {
+   "id": 317,
+   "src": 4,
+   "name": "Pipe and Cistern",
+   "units": 12,
+   "order": 13,
+   "weak": 0
+  },
+  {
+   "id": 318,
+   "src": 4,
+   "name": "Time, Speed and Distance",
+   "units": 36,
+   "order": 14,
+   "weak": 0
+  },
+  {
+   "id": 319,
+   "src": 4,
+   "name": "Linear and Circular Race",
+   "units": 9,
+   "order": 15,
+   "weak": 0
+  },
+  {
+   "id": 320,
+   "src": 4,
+   "name": "Boat and Stream",
+   "units": 10,
+   "order": 16,
+   "weak": 0
+  },
+  {
+   "id": 321,
+   "src": 4,
+   "name": "Percentage",
+   "units": 39,
+   "order": 17,
+   "weak": 0
+  },
+  {
+   "id": 322,
+   "src": 4,
+   "name": "Profit and Loss",
+   "units": 38,
+   "order": 18,
+   "weak": 0
+  },
+  {
+   "id": 323,
+   "src": 4,
+   "name": "Discount",
+   "units": 23,
+   "order": 19,
+   "weak": 0
+  },
+  {
+   "id": 324,
+   "src": 4,
+   "name": "Simple Interest",
+   "units": 18,
+   "order": 20,
+   "weak": 0
+  },
+  {
+   "id": 325,
+   "src": 4,
+   "name": "Compound Interest",
+   "units": 18,
+   "order": 21,
+   "weak": 0
+  },
+  {
+   "id": 326,
+   "src": 4,
+   "name": "Instalment",
+   "units": 6,
+   "order": 22,
+   "weak": 0
+  },
+  {
+   "id": 327,
+   "src": 4,
+   "name": "Average",
+   "units": 31,
+   "order": 23,
+   "weak": 0
+  },
+  {
+   "id": 328,
+   "src": 4,
+   "name": "Data Interpretation",
+   "units": 7,
+   "order": 24,
+   "weak": 0
+  },
+  {
+   "id": 329,
+   "src": 4,
+   "name": "Mean, Median & Mode",
+   "units": 7,
+   "order": 25,
+   "weak": 0
+  },
+  {
+   "id": 330,
+   "src": 4,
+   "name": "Coordinate Geometry",
+   "units": 8,
+   "order": 26,
+   "weak": 0
+  },
+  {
+   "id": 331,
+   "src": 4,
+   "name": "Probability",
+   "units": 8,
+   "order": 27,
+   "weak": 0
+  },
+  {
+   "id": 332,
+   "src": 4,
+   "name": "Pages after Probability (643-672)",
+   "units": 30,
+   "order": 28,
    "weak": 0
   }
  ]
