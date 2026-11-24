@@ -5,22 +5,28 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Abhyasa</title>
 <style>
-:root{--bg:#fff;--ink:#1f2328;--mut:#9aa0a6;--acc:#4a7dff;--line:#f0f1f3;--btn:#f3f4f6;color-scheme:light dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media(prefers-color-scheme:dark){:root{--bg:#111214;--ink:#ececec;--mut:#7d8187;--acc:#6b95ff;--line:#202226;--btn:#1d1f23}}
+:root{--base:#eef3fb;--ink:#14202e;--mut:#566274;--acc:#1f7aff;--on-acc:#fff;--glass:rgba(255,255,255,.55);--edge:rgba(255,255,255,.8);--hair:rgba(20,32,46,.08);--btn:rgba(255,255,255,.65);--field:rgba(255,255,255,.6);--shadow:0 8px 30px rgba(31,70,130,.12);color-scheme:light dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root{--base:#0b1220;--ink:#eef3fa;--mut:#cfd8e5;--acc:#6aa9ff;--on-acc:#0b1220;--glass:rgba(255,255,255,.1);--edge:rgba(255,255,255,.18);--hair:rgba(255,255,255,.09);--btn:rgba(255,255,255,.12);--field:rgba(0,0,0,.28);--shadow:0 8px 30px rgba(0,0,0,.4)}}
 *{box-sizing:border-box}
+html{background:var(--base)}
 html,body{margin:0}
-body{background:var(--bg);color:var(--ink);font:16px/1.4 -apple-system,system-ui,"Segoe UI",sans-serif;padding:28px 22px 48px;max-width:520px;margin:0 auto}
+body{background:transparent;color:var(--ink);font:16px/1.4 -apple-system,system-ui,"Segoe UI",sans-serif;padding:28px 18px 48px;max-width:520px;margin:0 auto}
+body::before{content:"";position:fixed;inset:0;z-index:-1;background:radial-gradient(60% 40% at 12% 8%,#bfe3ff,transparent 70%),radial-gradient(55% 40% at 92% 28%,#d9c8ff,transparent 70%),radial-gradient(60% 45% at 28% 96%,#b8f0df,transparent 70%),var(--base)}
+@media(prefers-color-scheme:dark){body::before{background:radial-gradient(60% 40% at 12% 8%,#163a6b,transparent 70%),radial-gradient(55% 40% at 92% 28%,#36266b,transparent 70%),radial-gradient(60% 45% at 28% 96%,#0c5246,transparent 70%),var(--base)}}
 h1{font-size:30px;font-weight:700;margin:0}
 .mut{color:var(--mut);font-size:13px}
-.hero{margin:4px 0 28px}
-.grp{margin:0 0 26px}
-.gh{display:flex;justify-content:space-between;gap:8px;font-size:12px;font-weight:500;color:var(--mut);padding-bottom:4px}
-button{font:inherit;color:var(--ink);border:0;background:var(--btn);border-radius:8px;min-height:34px;min-width:40px;padding:0 12px}
+.hero{margin:4px 0 22px}
+.grp,.cmp,.bk{background:var(--glass);border:1px solid var(--edge);border-radius:20px;box-shadow:var(--shadow);-webkit-backdrop-filter:blur(22px) saturate(1.5);backdrop-filter:blur(22px) saturate(1.5)}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.grp,.cmp,.bk{background:var(--base)}}
+.grp{margin:0 0 14px;padding:12px 16px 2px}
+.gh{display:flex;justify-content:space-between;gap:8px;font-size:12px;font-weight:600;color:var(--mut);padding-bottom:2px}
+button{font:inherit;color:var(--ink);border:1px solid var(--edge);background:var(--btn);border-radius:10px;min-height:34px;min-width:40px;padding:0 12px}
 button:active{opacity:.6}
 button:focus-visible,summary:focus-visible,textarea:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
-.task{display:flex;align-items:center;flex-wrap:wrap;border-bottom:1px solid var(--line)}
-.chk{width:44px;min-width:44px;height:52px;background:none;padding:0;display:grid;place-items:center;border-radius:0;justify-items:start}
-.c{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--mut);display:grid;place-items:center;transition:background .2s,border-color .2s}
+.task{display:flex;align-items:center;flex-wrap:wrap;border-bottom:1px solid var(--hair)}
+.task:last-child{border-bottom:0}
+.chk{width:44px;min-width:44px;height:52px;background:none;border:0;padding:0;display:grid;place-items:center;border-radius:0;justify-items:start}
+.c{color:var(--on-acc);width:22px;height:22px;border-radius:50%;border:1.5px solid var(--mut);display:grid;place-items:center;transition:background .2s,border-color .2s}
 .c svg{opacity:0;transform:scale(.4);transition:opacity .2s,transform .2s}
 .fin .c{background:var(--acc);border-color:var(--acc)}
 .fin .c svg{opacity:1;transform:scale(1)}
@@ -28,18 +34,18 @@ button:focus-visible,summary:focus-visible,textarea:focus-visible{outline:2px so
 @keyframes pop{50%{transform:scale(1.3)}}
 .in{animation:slide .28s ease-out}
 @keyframes slide{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
-.body{flex:1;min-width:0;text-align:left;background:none;border-radius:0;padding:10px 0;min-height:52px}
+.body{flex:1;min-width:0;text-align:left;background:none;border:0;border-radius:0;padding:10px 0;min-height:52px}
 .tn{font-size:17px;overflow-wrap:anywhere}
 .ts{font-size:12px;color:var(--mut)}
 .fin .tn{text-decoration:line-through;color:var(--mut)}
 .stp{width:100%;display:flex;gap:8px;padding:0 0 12px 44px}
-.cmp{margin-top:4px}
-.cmp>summary{font-size:13px;color:var(--mut);padding:6px 0;margin-bottom:2px}
+.cmp{margin-top:14px;padding:4px 16px}
+.cmp>summary{font-size:13px;color:var(--mut);padding:10px 0;min-height:44px}
 .empty{text-align:center;padding:40px 0;color:var(--mut)}
-details.bk{margin-top:36px;color:var(--mut)}
-summary{font-size:13px;min-height:30px}
-textarea{width:100%;height:90px;font:12px monospace;background:var(--btn);color:var(--ink);border:0;border-radius:8px;padding:10px;margin:8px 0}
-.ctl{display:flex;gap:8px}
+details.bk{margin-top:28px;padding:6px 16px;color:var(--mut)}
+details.bk>summary{font-size:13px;padding:10px 0;min-height:44px}
+textarea{width:100%;height:90px;font:12px monospace;background:var(--field);color:var(--ink);border:1px solid var(--edge);border-radius:10px;padding:10px;margin:8px 0}
+.ctl{display:flex;gap:8px;padding-bottom:10px}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -55,6 +61,10 @@ textarea{width:100%;height:90px;font:12px monospace;background:var(--btn);color:
 </details>
 <script src="data.js"></script>
 <script>
+if (typeof DATA === "undefined") {
+  document.getElementById("app").innerHTML = '<div class="empty">data.js is missing.<br>Upload it to the repo next to index.html.</div>';
+  throw new Error("data.js missing");
+}
 const KEY = "abhyasa-v5";
 const byOrder = (a,b) => b.weak - a.weak || a.order - b.order || a.id - b.id;   // weak topics first
 const topicsOf = s => DATA.topics.filter(t => t.src === s.id).sort(byOrder);
@@ -87,7 +97,7 @@ const tdy = t => (st.log[today] || {})[t.id] || 0;
 const before = t => Object.keys(st.log).reduce((a,d) => d === today ? a : a + (st.log[d][t.id] || 0), 0);
 
 let prevIds = null, popId = null, cmpOpen = false; const expanded = {};
-const CHECK = '<svg viewBox="0 0 24 24" width="16" height="16"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const CHECK = '<svg viewBox="0 0 24 24" width="16" height="16"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
 function render(){
   tick();
@@ -101,7 +111,7 @@ function render(){
     const done = ts.reduce((a,t) => a + tdy(t), 0);
     if (target > 0) items.push({s, ts, target, done});
   });
-  items.sort((a,z) => (a.done >= a.target) - (z.done >= z.target) || a.s.sub - z.s.sub || a.s.id - z.s.id);
+  items.sort((a,z) => a.s.sub - z.s.sub || a.s.id - z.s.id);
 
   let html = "", fin = "", nFin = 0, nOpen = 0; const ids = new Set();
   const row = (t, s, isDone, d) => {
