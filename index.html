@@ -121,7 +121,7 @@ function render(){
       if (open >= 2) return;
       open++; rows += row(t, s, false, d);
     });
-    if (rows) { nOpen++; html += '<div class="grp"><div class="gh"><span>'+esc(s.name)+'</span><span>'+done+' / '+target+' '+s.unit+'s</span></div>'+rows+'</div>'; }
+    if (rows) { nOpen++; html += '<div class="grp"><div class="gh"><span>'+esc(s.name)+'</span><span>'+Math.min(100, Math.round(done / target * 100))+'%</span></div>'+rows+'</div>'; }
   });
   if (!items.length) html = '<div class="empty">Nothing due today.</div>';
   else if (!nOpen) html = '<div class="empty">All done for today.</div>';
