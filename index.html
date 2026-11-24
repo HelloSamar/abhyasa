@@ -5,67 +5,57 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Abhyasa</title>
 <style>
-:root{--bg:#f6f5f1;--card:#fff;--ink:#1d1d1b;--mut:#6b6a65;--acc:#1d6b4f;--bar:#e4e2da;--line:#e8e6df;--btn:#efede6;--warn:#b4531a;color-scheme:light dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media(prefers-color-scheme:dark){:root{--bg:#141413;--card:#1e1e1c;--ink:#f0eee8;--mut:#9b9a93;--acc:#5fcf9f;--bar:#33322e;--line:#2c2b28;--btn:#2b2a27;--warn:#f0a070}}
+:root{--bg:#f6f5f1;--card:#fff;--ink:#1d1d1b;--mut:#6b6a65;--acc:#1d6b4f;--bar:#e4e2da;--line:#e8e6df;--btn:#efede6;color-scheme:light dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root{--bg:#141413;--card:#1e1e1c;--ink:#f0eee8;--mut:#9b9a93;--acc:#5fcf9f;--bar:#33322e;--line:#2c2b28;--btn:#2b2a27}}
 *{box-sizing:border-box}
 html,body{margin:0}
 body{background:var(--bg);color:var(--ink);font:16px/1.4 -apple-system,system-ui,"Segoe UI",sans-serif;padding:16px 14px 40px;max-width:520px;margin:0 auto}
 h1{font-size:22px;margin:4px 0 0}
 .mut{color:var(--mut);font-size:13px;margin:2px 0}
-.hero{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin:12px 0}
-.big{font-size:26px;font-weight:700;color:var(--acc)}
+.hero{margin:10px 0 14px}
+.big{font-size:28px;font-weight:700;color:var(--acc);margin-top:6px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
-.row{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
-.sub{font-weight:700;font-size:18px}
-.t{margin:6px 0;font-size:14px}.t b{color:var(--acc)}
-.bar{height:8px;border-radius:4px;background:var(--bar);overflow:hidden}
+.row{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.sub{font-weight:700;font-size:17px}
+.cnt{font-weight:700;font-size:20px;color:var(--acc);white-space:nowrap}
+.bar{height:8px;border-radius:4px;background:var(--bar);overflow:hidden;margin:8px 0}
 .bar i{display:block;height:100%;background:var(--acc)}
-details{border-top:1px solid var(--line);margin-top:12px;padding-top:10px}
-summary{font-weight:600;font-size:15px;min-height:30px}
-summary small{color:var(--mut);font-weight:400;display:block;font-size:12px}
-.topic{margin-top:12px;padding-top:10px;border-top:1px dashed var(--line)}
-.tname span{color:var(--mut);font-size:12px;margin-right:4px}
-.weak{color:var(--warn);font-size:11px;margin-left:6px}
-.meta{font-size:12px;color:var(--mut);margin:2px 0 8px}
-.ctl{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
-button{font:inherit;background:var(--btn);color:var(--ink);border:0;border-radius:10px;min-width:44px;height:44px;padding:0 12px}
+.ctl{display:flex;align-items:center;gap:6px;margin-top:10px}
+button{font:inherit;background:var(--btn);color:var(--ink);border:0;border-radius:10px;min-width:48px;height:48px;padding:0 14px}
 button:active{opacity:.6}
 button:focus-visible,summary:focus-visible,textarea:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
-.n{min-width:40px;text-align:center;font-weight:600}
-.lbl{font-size:12px;color:var(--mut);margin:0 6px 0 2px}
 .done{opacity:.55}
+.empty{text-align:center;padding:28px 0;color:var(--mut)}
+details.bk{margin-top:24px}
+summary{font-weight:600;min-height:30px}
 textarea{width:100%;height:90px;font:12px monospace;background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:8px;margin:8px 0}
 </style>
 </head>
 <body>
-<h1>Abhyasa</h1>
-<p class="mut">Practice. Prepare. Perform.</p>
+<h1>Today</h1>
 <div class="hero" id="hero"></div>
 <div id="app"></div>
-<div class="card">
-<div class="sub">Backup</div>
+<details class="bk">
+<summary>Backup</summary>
 <p class="mut">Progress lives only in this browser. Copy the backup text into Notes now and then.</p>
 <textarea id="bk" aria-label="Backup text" placeholder="Backup text appears here"></textarea>
-<div class="ctl"><button type="button" id="exp">Show backup</button><button type="button" id="imp">Restore from text</button><button type="button" id="clr">Clear today</button></div>
-</div>
-<!-- DATA comes from data.js, generated from the database by export_data.py -->
+<div class="ctl"><button type="button" id="exp">Show backup</button><button type="button" id="imp">Restore</button><button type="button" id="clr">Clear today</button></div>
+</details>
 <script src="data.js"></script>
 <script>
-const KEY = "abhyasa-v3";
-const topicById = Object.create(null);
-DATA.topics.forEach(t => topicById[t.id] = t);
+const KEY = "abhyasa-v4";
+const byOrder = (a,b) => b.weak - a.weak || a.order - b.order || a.id - b.id;   // weak topics first
+const topicsOf = s => DATA.topics.filter(t => t.src === s.id).sort(byOrder);
+const size = {}; DATA.sources.forEach(s => size[s.id] = topicsOf(s).reduce((a,t) => a + t.units, 0));
 
-// A saved state is {v:3, log:{"YYYY-MM-DD":{topicId:units}}}. Reject anything else.
+// Saved state: {v:4, log:{"YYYY-MM-DD":{sourceId:unitsDone}}}
 function valid(o){
-  if (!o || o.v !== 3 || !o.log || typeof o.log !== "object" || Array.isArray(o.log)) return false;
-  return Object.keys(o.log).every(d => {
-    const day = o.log[d];
-    return /^\d{4}-\d\d-\d\d$/.test(d) && day && typeof day === "object" && !Array.isArray(day) &&
-      Object.keys(day).every(id => topicById[id] && Number.isInteger(day[id]) && day[id] >= 0 && day[id] <= topicById[id].units);
-  });
+  if (!o || o.v !== 4 || !o.log || typeof o.log !== "object" || Array.isArray(o.log)) return false;
+  return Object.keys(o.log).every(d => { const x = o.log[d];
+    return /^\d{4}-\d\d-\d\d$/.test(d) && x && typeof x === "object" && !Array.isArray(x) &&
+      Object.keys(x).every(id => id in size && Number.isInteger(x[id]) && x[id] >= 0 && x[id] <= size[id]); });
 }
-
-let st = {v:3, log:{}}, open = {};
+let st = {v:4, log:{}};
 try { const s = JSON.parse(localStorage.getItem(KEY)); if (valid(s)) st = s; } catch(e) {}
 const save = () => { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch(e) {} };
 
@@ -74,76 +64,62 @@ const iso = d => d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate());
 const day = s => new Date(s+"T00:00:00");
 const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const fmt = d => d.toLocaleDateString(undefined, {day:"numeric", month:"short", year:"numeric"});
-
 const exam = day(DATA.exam.date);
 const studyEnd = new Date(exam); studyEnd.setDate(exam.getDate() - DATA.exam.revisionDays);
-
-let today = iso(new Date());                 // refreshed on every render and tap
+let today = iso(new Date());
 const tick = () => { today = iso(new Date()); };
-const tdy = t => (st.log[today] || {})[t.id] || 0;
-const before = t => Object.keys(st.log).reduce((s,d) => d === today ? s : s + (st.log[d][t.id] || 0), 0);
-const srcs = sj => DATA.sources.filter(s => s.sub === sj.id).sort((a,b) => a.id - b.id);
-const byOrder = (a,b) => a.order - b.order || a.id - b.id;
-
-// topic number within subject (same rule as query.sql)
-const num = {};
-DATA.subjects.forEach(sj => { let n = 0;
-  srcs(sj).forEach(s => DATA.topics.filter(t => t.src === s.id).sort(byOrder).forEach(t => num[t.id] = ++n)); });
+const doneToday = s => (st.log[today] || {})[s.id] || 0;
+const before = s => Object.keys(st.log).reduce((a,d) => d === today ? a : a + (st.log[d][s.id] || 0), 0);
+const subName = id => (DATA.subjects.find(x => x.id === id) || {}).name || "";
 
 function render(){
   tick();
   const left = Math.round((day(iso(studyEnd)) - day(today)) / 864e5) + 1;   // today counts
   const toExam = Math.round((exam - day(today)) / 864e5);
-  let html = "", allT = 0, allD = 0; const pcts = [];
-
-  DATA.subjects.forEach(sj => {
-    let sT = 0, sD = 0, body = "";
-    srcs(sj).forEach(s => {
-      const ts = DATA.topics.filter(t => t.src === s.id);
-      const rem = Math.max(0, ts.reduce((a,t) => a + t.units - before(t), 0));   // left at the start of today
-      const target = left < 1 ? rem : Math.ceil(rem / left);
-      const done = ts.reduce((a,t) => a + tdy(t), 0);
-      sT += target * s.mpu; sD += done * s.mpu;
-      body += '<details data-s="'+s.id+'"'+(open[s.id] ? ' open' : '')+'><summary>'+esc(s.name)
-        +'<small>target '+target+' · done '+done+' · '+Math.max(0, rem - done)+' '+s.unit+'s left</small></summary>';
-      ts.sort((a,b) => b.weak - a.weak || byOrder(a,b)).forEach(t => {
-        const d = before(t) + tdy(t);
-        body += '<div class="topic'+(d >= t.units ? ' done' : '')+'"><div class="tname"><span>#'+num[t.id]+'</span>'+esc(t.name)
-          +(t.weak ? '<span class="weak">WEAK</span>' : '')+'</div>'
-          +'<div class="meta">'+d+' / '+t.units+' '+s.unit+'s</div>'
-          +'<div class="ctl"><button type="button" aria-label="Remove one from today" data-t="'+t.id+'" data-v="-1">−</button>'
-          +'<span class="n">'+tdy(t)+'</span>'
-          +'<button type="button" aria-label="Add one to today" data-t="'+t.id+'" data-v="1">+1</button>'
-          +'<button type="button" aria-label="Add five to today" data-t="'+t.id+'" data-v="5">+5</button>'
-          +'<span class="lbl">today</span></div></div>';
-      });
-      body += '</details>';
-    });
-    allT += sT; allD += sD;
-    const pct = sT > 0 ? Math.min(100, Math.round(sD / sT * 100)) : 100;
-    pcts.push(pct);
-    html += '<div class="card"><div class="row"><div class="sub">'+esc(sj.name)+'</div></div>'
-      +'<div class="t">Today: <b>'+sT+' min</b> target · <b>'+sD+' min</b> done</div>'
-      +'<div class="bar"><i style="width:'+pct+'%"></i></div>'+body+'</div>';
+  const items = [];
+  DATA.sources.forEach(s => {
+    const b = before(s), done = doneToday(s), rem = Math.max(0, size[s.id] - b);
+    const target = left < 1 ? rem : Math.ceil(rem / left);
+    if (target > 0) items.push({s, b, done, target});
   });
+  items.sort((a,z) => (a.done >= a.target) - (z.done >= z.target) || a.s.id - z.s.id);
 
-  const p = pcts.length ? Math.round(pcts.reduce((a,b) => a + b, 0) / pcts.length) : 100;
+  let tT = 0, tD = 0, html = "";
+  items.forEach(({s, b, done, target}) => {
+    tT += target * s.mpu; tD += Math.min(done, target) * s.mpu;
+    const fin = done >= target, pct = Math.min(100, Math.round(done / target * 100));
+    // where you are in the book
+    let pos = b + done, now = "", ts = topicsOf(s), i = 0;
+    while (i < ts.length && pos >= ts[i].units) { pos -= ts[i].units; i++; }
+    if (i < ts.length) {
+      now = "Now: " + esc(ts[i].name) + " · " + pos + " / " + ts[i].units;
+      if (!fin && target - done > ts[i].units - pos && ts[i+1]) now += " · then " + esc(ts[i+1].name);
+    } else now = "Source finished";
+    const u = s.unit + (target === 1 ? "" : "s");
+    html += '<div class="card'+(fin ? ' done' : '')+'"><div class="row"><div class="sub">'+esc(s.name)+'</div>'
+      +'<div class="cnt">'+(fin ? '✓ ' : '')+done+' / '+target+'</div></div>'
+      +'<div class="mut">'+esc(subName(s.sub))+' · '+target+' '+u+' today · '+target*s.mpu+' min</div>'
+      +'<div class="bar"><i style="width:'+pct+'%"></i></div><div class="mut">'+now+'</div>'
+      +'<div class="ctl"><button type="button" aria-label="Remove one" data-s="'+s.id+'" data-v="-1">−</button>'
+      +'<button type="button" aria-label="Add one" data-s="'+s.id+'" data-v="1">+1</button>'
+      +(s.unit === "mock" ? '' : '<button type="button" aria-label="Add five" data-s="'+s.id+'" data-v="5">+5</button>')
+      +'</div></div>';
+  });
+  if (!items.length) html = '<div class="empty">Nothing due today.</div>';
+  const p = items.length ? Math.round(items.reduce((a,x) => a + Math.min(100, x.done / x.target * 100), 0) / items.length) : 100;
   document.getElementById("app").innerHTML = html;
   document.getElementById("hero").innerHTML =
     '<div class="mut">'+esc(DATA.exam.name)+' · '+toExam+' days to '+fmt(exam)+'</div>'
-    +'<div class="mut">'+(left < 1 ? 'Study period is over' : 'Study ends '+fmt(studyEnd))+' · then '+DATA.exam.revisionDays+' days revision &amp; mocks</div>'
-    +'<div class="mut" style="margin-top:8px">Today’s total (bar = average across subjects)</div>'
-    +'<div class="big">'+allD+' / '+allT+' min</div><div class="bar"><i style="width:'+p+'%"></i></div>';
+    +'<div class="mut">'+(left < 1 ? 'Study period is over · revision &amp; mocks' : 'Study ends '+fmt(studyEnd)+' · then '+DATA.exam.revisionDays+' days revision')+'</div>'
+    +'<div class="big">'+tD+' / '+tT+' min</div><div class="bar"><i style="width:'+p+'%"></i></div>';
 }
 
-const app = document.getElementById("app");
-app.addEventListener("toggle", e => { if (e.target.dataset.s) open[e.target.dataset.s] = e.target.open; }, true);
-app.addEventListener("click", e => {
+document.getElementById("app").addEventListener("click", e => {
   const b = e.target.closest("button"); if (!b) return;
   tick();
-  const t = topicById[b.dataset.t], v = +b.dataset.v; if (!t) return;
+  const s = DATA.sources.find(x => x.id === +b.dataset.s); if (!s) return;
   const L = st.log[today] || (st.log[today] = {});
-  L[t.id] = Math.max(0, Math.min(t.units - before(t), (L[t.id] || 0) + v));
+  L[s.id] = Math.max(0, Math.min(size[s.id] - before(s), (L[s.id] || 0) + +b.dataset.v));
   save(); render();
 });
 
@@ -156,8 +132,6 @@ document.getElementById("imp").onclick = () => {
   st = o; save(); render(); bk.value = "Restored.";
 };
 document.getElementById("clr").onclick = () => { if (confirm("Clear everything logged today?")) { delete st.log[today]; save(); render(); } };
-
-// a tab left open overnight picks up the new day
 document.addEventListener("visibilitychange", () => { if (!document.hidden) render(); });
 window.addEventListener("focus", render);
 render();
