@@ -30,10 +30,11 @@ Commit `data.js` with `index.html`: GitHub Pages needs both.
 
 - Study ends `revision_days` before the exam date. After that comes revision and mocks.
 - Target for a source = units remaining at the start of today ÷ days left to study (today counts), rounded up. Your progress today does not change today's target.
-- Overall progress is the average of each subject's progress, so one subject cannot hide another.
+- The page shows only what is due today: one card per source with work left. Logging moves you through the book's topics in order (weak topics first).
+- The bar is the average of each source's progress, so one source cannot hide another.
 - Backup: "Show backup" prints your progress as text. Copy it into Notes now and then. "Restore from text" replaces everything saved in this browser.
 - Phone: repo **Settings → Pages**, deploy from `main`, open the link in Safari.
 
 ## Edit the plan
 
-Change `seed.sql`, rebuild (steps above), commit `data.js`. Topic ids can change when you rebuild from scratch, and saved progress is keyed by topic id. Keep ids stable by adding rows at the end, or take a backup first.
+Change `seed.sql`, rebuild (steps above), commit `data.js`. Saved progress is kept per source (by source id), so you can add or rename topics freely. Keep source ids stable.
