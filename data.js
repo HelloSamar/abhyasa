@@ -74,7 +74,7 @@ const DATA = {
   {
    "id": 8,
    "sub": 5,
-   "name": "Reasoning Mocks",
+   "name": "Reasoning",
    "unit": "mock",
    "mpu": 90
   },
@@ -88,21 +88,21 @@ const DATA = {
   {
    "id": 10,
    "sub": 1,
-   "name": "English Grammar videos",
+   "name": "English Grammar",
    "unit": "video",
    "mpu": 20
   },
   {
    "id": 11,
    "sub": 1,
-   "name": "English Vocabulary videos",
+   "name": "English Vocabulary",
    "unit": "video",
    "mpu": 20
   },
   {
    "id": 12,
    "sub": 3,
-   "name": "Parmar Fatman videos",
+   "name": "Parmar Fatman",
    "unit": "video",
    "mpu": 30
   }
