@@ -11,7 +11,7 @@ For every topic:
 1. Category
 2. Source name
 3. Topic name
-4. Length (pages or videos) and mock tests
+4. Length (pages, videos, or mock tests)
 5. Topic number within its category
 6. Source target completion date
 
