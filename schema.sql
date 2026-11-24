@@ -19,8 +19,8 @@ CREATE TABLE IF NOT EXISTS sources (
   source_id    INTEGER PRIMARY KEY,
   subject_id   INTEGER NOT NULL REFERENCES subjects(subject_id),
   source_name  TEXT    NOT NULL,
-  unit         TEXT    NOT NULL CHECK (unit IN ('page','video','mock')),
-  min_per_unit INTEGER NOT NULL CHECK (min_per_unit > 0)  -- minutes per page, video or mock
+  unit         TEXT    NOT NULL CHECK (unit IN ('page','video','mock','question')),
+  min_per_unit INTEGER NOT NULL CHECK (min_per_unit > 0)  -- minutes per page, video, mock or question
 );
 
 CREATE TABLE IF NOT EXISTS topics (
