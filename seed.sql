@@ -16,11 +16,11 @@ INSERT INTO sources (source_id, subject_id, source_name, unit, min_per_unit) VAL
   (4, 2, 'Pinnacle Maths (8th ed.)',                  'page', 5),
   (6, 3, 'Pinnacle GS (8th ed.)',                    'question', 1),
   (7, 4, 'Arihant Computer Awareness',                'page', 2),
-  (8, 5, 'Reasoning Mocks',                           'mock', 90),
+  (8, 5, 'Reasoning',                           'mock', 90),
   (9, 1, 'Neetu Singh English Volume I',               'page', 2),
-  (10, 1, 'English Grammar videos',                    'video', 20),
-  (11, 1, 'English Vocabulary videos',                 'video', 20),
-  (12, 3, 'Parmar Fatman videos',                      'video', 30);
+  (10, 1, 'English Grammar',                    'video', 20),
+  (11, 1, 'English Vocabulary',                 'video', 20),
+  (12, 3, 'Parmar Fatman',                      'video', 30);
 
 -- (source_id, topic_name, units, topic_order)
 INSERT INTO topics (source_id, topic_name, units, topic_order) VALUES
