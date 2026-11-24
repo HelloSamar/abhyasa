@@ -98,7 +98,7 @@ function render(){
     const done = ts.reduce((a,t) => a + tdy(t), 0);
     if (target > 0) items.push({s, ts, target, done});
   });
-  items.sort((a,z) => (a.done >= a.target) - (z.done >= z.target) || a.s.id - z.s.id);
+  items.sort((a,z) => (a.done >= a.target) - (z.done >= z.target) || a.s.sub - z.s.sub || a.s.id - z.s.id);
 
   let html = "", fin = "", nFin = 0, nOpen = 0; const ids = new Set();
   const row = (t, s, isDone, d) => {
