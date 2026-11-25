@@ -30,6 +30,7 @@ Commit `data.js` with `index.html`: GitHub Pages needs both.
 
 - Subject buttons at the top (All, English, Maths, GS, Computer, Reasoning) show one subject at a time, so you can focus on it.
 - Each source lists its next two chapters in order (weak topics first). Sources with nothing left are hidden.
+- Sources are ordered by progress: the ones furthest behind are at the top, "on track" ones lower, and ahead ones at the bottom. A source drops down the list as you finish chapters.
 - Tap the circle to complete a chapter. It moves to "Completed" at the bottom and the next chapter appears. Tap again to undo.
 - Tap a chapter's name to open −, +1 and +5 for partial progress.
 - The percentage next to each source is how much of the whole source you have finished, followed by whether you are ahead, behind or on track. This compares your progress with an even pace from `study_start` (in `seed.sql`) to the end of study, measured against the plan through yesterday, with today's work included. The top line shows the same for all sources together.

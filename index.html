@@ -130,9 +130,10 @@ function render(){
     const ts = topicsOf(s);
     const rem = Math.max(0, ts.reduce((a,t) => a + t.units - before(t), 0));   // left at the start of today
     const target = left < 1 ? rem : Math.ceil(rem / left);
-    if (target > 0) items.push({s, ts});
+    const f = ts.reduce((a,t) => a + before(t) + tdy(t), 0) / ts.reduce((a,t) => a + t.units, 0);   // share of the source finished
+    if (target > 0) items.push({s, ts, f});
   });
-  items.sort((a,z) => a.s.sub - z.s.sub || a.s.id - z.s.id);
+  items.sort((a,z) => a.f - z.f || a.s.sub - z.s.sub || a.s.id - z.s.id);   // most behind first, ahead last
 
   let html = "", fin = "", nFin = 0, nOpen = 0; const ids = new Set();
   const row = (t, s, isDone, d) => {
