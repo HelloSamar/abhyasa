@@ -31,11 +31,22 @@ Commit `data.js` with `index.html`: GitHub Pages needs both.
 - Subject buttons at the top (All, English, Maths, GS, Computer, Reasoning) show one subject at a time, so you can focus on it.
 - Each source lists its next two chapters in order (weak topics first). Sources with nothing left are hidden.
 - Sources are ordered by progress: the ones furthest behind are at the top, "on track" ones lower, and ahead ones at the bottom. A source drops down the list as you finish chapters.
+- Want a chapter that is not next? Tap **All chapters** under a source to see every chapter in book order and tick any of them. The next-two queue then skips whatever you finished. Tap **Show next 2 only** to go back.
 - Tap the circle to complete a chapter. It moves to "Completed" at the bottom and the next chapter appears. Tap again to undo.
 - Tap a chapter's name to open −, +1 and +5 for partial progress.
 - The percentage next to each source is how much of the whole source you have finished, followed by whether you are ahead, behind or on track. This compares your progress with an even pace from `study_start` (in `seed.sql`) to the end of study, measured against the plan through yesterday, with today's work included. The top line shows the same for all sources together.
 - Open a chapter and tap **Mark weak** to flag it. Weak chapters move to the front of their source and the flag syncs between devices.
 - Behind the scenes, the daily amount for a source = units left at the start of today ÷ days left to study (today counts), rounded up. Study ends `revision_days` before the exam date. This only decides which sources are due today.
+
+## Mock tests
+
+Tap **Mocks** (last button in the row at the top).
+
+- **+ Add mock:** pick the date, an optional name, and for each subject the marks scored and the maximum. Leave a subject empty if it was not in that mock. The maximum is filled in from your last mock.
+- **Overall trend:** a line over your last 12 mocks, with the latest and best score.
+- **Per subject:** the average of your last 3 mocks. Once you have more than 3 mocks, an arrow shows whether it moved up or down against the 3 before. The lowest subject is marked "weakest", with a button that jumps to that subject's chapters.
+- **Recent mocks:** the last 10. Tap ✕ to delete one.
+- Mocks are saved and synced together with your progress, and included in backups.
 
 ## Sync between phone and computer
 
